@@ -35,7 +35,7 @@ abstract class SubjectAdapter<TAnnotation, TElement extends Element> {
     var matchingElements =
         foundElements.map((e) => e.element).whereType<TElement>().toList();
     if (matchingElements.isEmpty) return null;
-    return SubjectGenContext<TElement>(reader, matchingElements, step);
+    return SubjectGenContext<TElement>(this, reader, matchingElements, step);
   }
 
   FutureOr<bool> doesOutput(SubjectGenContext<TElement> genContext) => true;
@@ -47,14 +47,15 @@ abstract class SubjectAdapter<TAnnotation, TElement extends Element> {
 }
 
 class SubjectGenContext<TElement extends Element> {
+  final SubjectAdapter adapter;
   final LibraryReader library;
   final List<TElement> matches;
   final BuildStep step;
 
-  SubjectGenContext(this.library, this.matches, this.step);
+  SubjectGenContext(this.adapter, this.library, this.matches, this.step);
 
   SubjectDescriptor defaultBinding() =>
-      SubjectDescriptor(uri: step.inputId.uri.toString());
+      SubjectDescriptor(uri: step.inputId.changeExtension(".${adapter.archetype}.g.dart").uri.toString());
 }
 
 class SubjectCodeContext {

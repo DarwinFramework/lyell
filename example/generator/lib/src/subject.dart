@@ -34,5 +34,8 @@ class TestSubjectReactor extends SubjectReactorBuilder {
         descriptors.expand((element) => (element.meta["names"] as List)
         .cast<String>().map((e) => "'$e'")).join(", ")
     }];");
+    descriptors.forEach((element) {
+      print(element.uri);
+    });
   }
 }
