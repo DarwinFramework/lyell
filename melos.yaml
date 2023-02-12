@@ -1,4 +1,5 @@
 name: lyell_project
+repository: https://github.com/DarwinFramework/lyell
 packages:
   - packages/**
 scripts:
