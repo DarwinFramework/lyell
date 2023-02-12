@@ -34,6 +34,7 @@ abstract class SubjectAdapter<TAnnotation, TElement extends Element> {
     if (foundElements.isEmpty) return null;
     var matchingElements =
         foundElements.map((e) => e.element).whereType<TElement>().toList();
+    if (matchingElements.isEmpty) return null;
     return SubjectGenContext<TElement>(reader, matchingElements, step);
   }
 
@@ -109,6 +110,7 @@ class _ServiceAdapterServiceBuilder<TAnnotation, TElement extends Element>
     codeBuffer.writeln(getImportString(genContext.library.element,
         genContext.step.inputId, additionalImports));
     codeBuffer.writeln(passedCodeBuffer.toString());
+    if (codeContext.noGenerate) return;
     await buildStep.writeAsString(
         buildStep.inputId.changeExtension(".${adapter.archetype}.g.dart"),
         DartFormatter(pageWidth: 200).format(codeBuffer.toString()));
