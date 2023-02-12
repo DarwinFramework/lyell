@@ -1,5 +1,5 @@
 name: lyell_gen
-description: A starting point for Dart libraries or applications.
+description: Generator utilities used by darwin and dogs.
 version: 0.0.1
 repository: https://github.com/DarwinFramework/lyell
 
