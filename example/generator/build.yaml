@@ -1,0 +1,31 @@
+targets:
+  $default:
+    builders: {}
+
+builders:
+  testBuilder:
+    import: "package:generator/generator.dart"
+    builder_factories: [ "testBuilder" ]
+    build_extensions: { ".dart": [ ".test.g.dart" ] }
+    auto_apply: all_packages
+    build_to: source
+  test_subj:
+    import: "package:generator/generator.dart"
+    builder_factories: [ "subjBuilder" ]
+    build_extensions: { ".dart": [ ".impl.dart" ] }
+    auto_apply: dependents
+    build_to: source
+  test_desc:
+    import: "package:generator/generator.dart"
+    builder_factories: [ "descBuilder" ]
+    build_extensions: { ".dart": [ ".impl.tsd" ] }
+    runs_before: [ "generator:test_reactor" ]
+    auto_apply: dependents
+    build_to: cache
+  test_reactor:
+    import: "package:generator/generator.dart"
+    builder_factories: [ "reactorBuilder" ]
+    build_extensions: { "$lib$": [ "reactor.g.dart" ] }
+    required_inputs: [ ".tsd" ]
+    auto_apply: dependents
+    build_to: source

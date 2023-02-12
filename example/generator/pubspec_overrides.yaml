@@ -1,0 +1,5 @@
+dependency_overrides:
+  lyell:
+    path: ../../packages/lyell
+  lyell_gen:
+    path: ../../packages/lyell_gen
