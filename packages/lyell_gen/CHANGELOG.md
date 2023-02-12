@@ -1,3 +1,7 @@
+## 0.0.1+2
+
+ - **FIX**: descriptor uri now points towards the generated file, not the source file.
+
 ## 0.0.1+1
 
  - **FIX**: add missing return clauses.
