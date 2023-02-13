@@ -104,8 +104,9 @@ class AliasCounter {
   String ephemeral(DartType type,
       [List<AliasImport>? importBuffer, String prefixOverride = genAlias]) {
     var prefix = getNextPrefix(prefixOverride);
-    if (importBuffer != null)
+    if (importBuffer != null) {
       importBuffer.add(AliasImport.type(type, prefix.prefix));
+    }
     var element = type.element!;
     if (type is ParameterizedType && type.typeArguments.isNotEmpty) {
       return prefix.str(
@@ -166,17 +167,20 @@ class CachedAliasCounter {
     if (reader.isType) return get(reader.typeValue);
 
     // Handle generic collections
-    if (reader.isList)
+    if (reader.isList) {
       return "[${reader.listValue.map((e) => toSource(e)).join(",")}]";
-    if (reader.isSet)
+    }
+    if (reader.isSet) {
       return "{${reader.setValue.map((e) => toSource(e)).join(",")}}";
+    }
     if (reader.isMap) {
       return "{${reader.mapValue.map((key, value) => MapEntry(toSource(key!), toSource(value!))).entries.map((e) => "${e.key}:${e.value}").join(",")}}";
     }
 
     // Handle objects
-    if (object.type!.isDartCoreFunction)
+    if (object.type!.isDartCoreFunction) {
       throw UnsupportedError("Functions are not supported");
+    }
     var revived = reader.revive();
     var type = get(object.type!);
 
@@ -194,8 +198,9 @@ class CachedAliasCounter {
     }
     var builtArgs = args.toString();
     // Remove trailing ','
-    if (builtArgs.endsWith(","))
+    if (builtArgs.endsWith(",")) {
       builtArgs = builtArgs.substring(0, builtArgs.length - 1);
+    }
     return "$type($builtArgs)";
   }
 
