@@ -12,6 +12,11 @@ class GeneratedAssociatedItemTypeToken {
       "ItemAssociatedTypeToken<${origin.getDisplayString(withNullability: false)},${item.getDisplayString(withNullability: false)}>()";
 
   String get prefixedCode => genPrefix.str(code);
+
+  String prefixedCodeWithAliasedTypes(CachedAliasCounter counter) {
+    return genPrefix.str("ItemAssociatedTypeToken<${counter.get(origin)},${counter.get(item)}>()");
+  }
+
 }
 
 class GeneratedTypeToken {
@@ -23,6 +28,10 @@ class GeneratedTypeToken {
       "TypeToken<${type.getDisplayString(withNullability: false)}>()";
 
   String get prefixedCode => genPrefix.str(code);
+
+  String prefixedCodeWithAliasedTypes(CachedAliasCounter counter) {
+    return genPrefix.str("TypeToken<${counter.get(type)}}>()");
+  }
 }
 
 GeneratedTypeToken getTypeToken(DartType type) => GeneratedTypeToken(type);

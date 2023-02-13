@@ -1,6 +1,4 @@
-/// Support for doing something awesome.
-///
-/// More dartdocs go here.
+/// Generator utilities used by darwin and dogs.
 library lyell_gen;
 
 export 'src/annotations.dart';

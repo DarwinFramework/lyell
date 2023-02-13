@@ -15,6 +15,24 @@ abstract class TypeCapture<T> {
   Type get deriveStream => Stream<T>;
 }
 
+/// Mixin for adding the [TypeCapture] interface to classes.
+mixin TypeCaptureMixin<T> implements TypeCapture<T> {
+  @override
+  Type get typeArgument => T;
+  @override
+  Type get deriveList => List<T>;
+  @override
+  Type get deriveSet => Set<T>;
+  @override
+  Type get deriveIterable => Iterable<T>;
+  @override
+  Type get deriveFuture => Future<T>;
+  @override
+  Type get deriveFutureOr => FutureOr<T>;
+  @override
+  Type get deriveStream => Stream<T>;
+}
+
 /// Defines the item type of the implementing class.
 /// The getItemType method in lyell_gen will consider [T] as the actual
 /// item type and treat it as if it is the type argument of a [List],
@@ -36,8 +54,8 @@ class ItemAssociatedTypeToken<SOURCE, ITEM> {
   TypeToken<ITEM> get itemType => TypeToken<ITEM>();
 }
 
-/// Marker annotation to make an annotation accessible at runtime via annotation
-/// holder implementation holders.
+/// Marker annotation to make an annotation accessible at runtime using
+/// [RetainedAnnotationHolder] implementations.
 abstract class RetainedAnnotation {
   const RetainedAnnotation();
 }

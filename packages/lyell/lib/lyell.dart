@@ -1,8 +1,4 @@
-/// Support for doing something awesome.
-///
-/// More dartdocs go here.
+/// Generator utilities used by darwin and dogs.
 library lyell;
 
 export 'src/lyell_base.dart';
-
-class LyellLocator {}

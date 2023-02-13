@@ -21,6 +21,7 @@ late InterfaceElement cascadeTypeInterface;
 
 TypeChecker retainedAnnotationChecker =
     TypeChecker.fromRuntime(RetainedAnnotation);
+TypeChecker mapChecker = TypeChecker.fromRuntime(Map);
 TypeChecker iterableChecker = TypeChecker.fromRuntime(Iterable);
 TypeChecker listChecker = TypeChecker.fromRuntime(List);
 TypeChecker setChecker = TypeChecker.fromRuntime(Set);
@@ -94,8 +95,6 @@ extension MetadataExtension on List<ElementAnnotation> {
   List<ElementAnnotation> whereTypeChecker(TypeChecker checker) =>
       where((element) {
         var elementType = element.computeConstantValue()!.type!;
-        print(elementType);
-        print(elementType.element);
         return checker.isAssignableFrom(elementType.element!);
       }).toList();
 }

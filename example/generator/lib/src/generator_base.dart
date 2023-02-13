@@ -2,7 +2,6 @@ import 'dart:async';
 
 import 'package:build/build.dart';
 import 'package:dart_style/dart_style.dart';
-import 'package:glob/glob.dart';
 import 'package:lyell_gen/lyell_gen.dart';
 import 'package:source_gen/source_gen.dart';
 
@@ -14,7 +13,9 @@ class TestBuilder extends Builder {
     var library = await buildStep.inputLibrary;
     var reader = LibraryReader(library);
     var asset = buildStep.inputId;
-    AliasReferenceCounter counter = AliasReferenceCounter();
+    var hasOutput = false;
+    AliasCounter counter = AliasCounter();
+    CachedAliasCounter cachedCounter = CachedAliasCounter(counter);
     List<AliasImport> additionalImports = [];
     StringBuffer codeBuffer = StringBuffer();
     additionalImports.add(AliasImport.gen("package:lyell/lyell.dart"));
@@ -23,17 +24,22 @@ class TestBuilder extends Builder {
       // Example for generating type tokens
       for (var element in clazz.fields) {
         var token = await getAssociatedTypeToken(element.type, buildStep);
-        codeBuffer.writeln("const \$${clazz.name}_${element.name} = ${token.prefixedCode};");
+        codeBuffer.writeln("const \$${clazz.name}_${element.name} = ${token.prefixedCodeWithAliasedTypes(cachedCounter)};");
+        codeBuffer.writeln("final \$${clazz.name}_${element.name}_aliased = ${cachedCounter.get(element.type)};");
       }
 
       // Example for using retained annotations
-      var retained = getRetainedAnnotations(clazz);
+      var retained = getRetainedAnnotations(clazz, cachedCounter);
       codeBuffer.writeln("const \$${clazz.name}_annotations_array = ${retained.sourceArray};");
       codeBuffer.writeln("const \$${clazz.name}_annotations = ${retained.prefixedContainer};");
 
+      hasOutput = true;
     }
 
-    var imports =  getImportString(library, asset, additionalImports);
+    if (!hasOutput) return;
+
+    additionalImports.addAll(cachedCounter.imports);
+    var imports = createImports(imports: additionalImports);
     var formatted = DartFormatter().format(imports + codeBuffer.toString());
     await buildStep.writeAsString(asset.changeExtension(".test.g.dart"), formatted);
   }

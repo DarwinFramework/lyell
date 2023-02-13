@@ -77,7 +77,6 @@ class _ServiceAdapterDescriptorBuilder<TAnnotation, TElement extends Element>
     var context = await adapter._createContext(buildStep);
     if (context == null) return;
     if (!await adapter.doesOutput(context)) return;
-    print("Generating Subject Adapter Bindings for ${buildStep.inputId}");
     var binding = await adapter.generateBinding(context);
     await buildStep.writeAsString(
         buildStep.inputId.changeExtension(
@@ -102,7 +101,6 @@ class _ServiceAdapterServiceBuilder<TAnnotation, TElement extends Element>
     var genContext = await adapter._createContext(buildStep);
     if (genContext == null) return;
     if (!await adapter.doesOutput(genContext)) return;
-    print("Generating Subject Adapter Code for ${buildStep.inputId}");
     var passedCodeBuffer = StringBuffer();
     var additionalImports = List<AliasImport>.empty(growable: true);
     var codeContext = SubjectCodeContext(additionalImports, passedCodeBuffer);
