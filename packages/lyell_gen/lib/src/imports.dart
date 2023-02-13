@@ -68,12 +68,11 @@ String getImportString(LibraryElement? library, AssetId? id,
 }
 
 /// Utility for creating a import sections of dart files.
-String createImports({
-  LibraryElement? library,
-  AssetId? id,
-  List<AliasImport>? imports,
-  bool includeDartCore = true
-}) {
+String createImports(
+    {LibraryElement? library,
+    AssetId? id,
+    List<AliasImport>? imports,
+    bool includeDartCore = true}) {
   Set<AliasImport> importValues = <AliasImport>{};
   if (includeDartCore) importValues.add(AliasImport.root("dart:core"));
   if (imports != null) importValues.addAll(imports);
@@ -102,12 +101,15 @@ class AliasCounter {
 
   /// Generates an ephemeral import alias for [type] and saves the import to
   /// [importBuffer]. The generation prefix can be overridden by using [prefixOverride].
-  String ephemeral(DartType type, [List<AliasImport>? importBuffer, String prefixOverride = genAlias]) {
+  String ephemeral(DartType type,
+      [List<AliasImport>? importBuffer, String prefixOverride = genAlias]) {
     var prefix = getNextPrefix(prefixOverride);
-    if (importBuffer != null) importBuffer.add(AliasImport.type(type, prefix.prefix));
+    if (importBuffer != null)
+      importBuffer.add(AliasImport.type(type, prefix.prefix));
     var element = type.element!;
     if (type is ParameterizedType && type.typeArguments.isNotEmpty) {
-      return prefix.str("${element.name}<${type.typeArguments.map((e) => ephemeral(e, importBuffer, prefixOverride)).join(",")}>");
+      return prefix.str(
+          "${element.name}<${type.typeArguments.map((e) => ephemeral(e, importBuffer, prefixOverride)).join(",")}>");
     } else {
       return prefix.str(element.name!);
     }
@@ -116,11 +118,10 @@ class AliasCounter {
 
 /// Utility for generating cached incrementally generated aliases using [AliasCounter].
 class CachedAliasCounter {
-
   List<AliasImport> imports = [];
   Map<String, AliasedPrefix> importPrefixes = {};
   AliasCounter counter;
-  
+
   CachedAliasCounter(this.counter);
 
   /// Retrieves the import alias for [import].
@@ -141,7 +142,8 @@ class CachedAliasCounter {
     var prefix = getImportAlias(import);
     var element = type.element!;
     if (type is ParameterizedType && type.typeArguments.isNotEmpty) {
-      return prefix.str("${element.name}<${type.typeArguments.map((e) => get(e)).join(",")}>");
+      return prefix.str(
+          "${element.name}<${type.typeArguments.map((e) => get(e)).join(",")}>");
     } else {
       return prefix.str(element.name!);
     }
@@ -164,17 +166,17 @@ class CachedAliasCounter {
     if (reader.isType) return get(reader.typeValue);
 
     // Handle generic collections
-    if (reader.isList) return "[${reader.listValue.map((e) => toSource(e)).join(",")}]";
-    if (reader.isSet) return "{${reader.setValue.map((e) => toSource(e)).join(",")}}";
+    if (reader.isList)
+      return "[${reader.listValue.map((e) => toSource(e)).join(",")}]";
+    if (reader.isSet)
+      return "{${reader.setValue.map((e) => toSource(e)).join(",")}}";
     if (reader.isMap) {
-      return "{${reader.mapValue
-        .map((key, value) => MapEntry(toSource(key!), toSource(value!)))
-        .entries.map((e) => "${e.key}:${e.value}").join(",")
-      }}";
+      return "{${reader.mapValue.map((key, value) => MapEntry(toSource(key!), toSource(value!))).entries.map((e) => "${e.key}:${e.value}").join(",")}}";
     }
 
     // Handle objects
-    if (object.type!.isDartCoreFunction) throw UnsupportedError("Functions are not supported");
+    if (object.type!.isDartCoreFunction)
+      throw UnsupportedError("Functions are not supported");
     var revived = reader.revive();
     var type = get(object.type!);
 
@@ -192,7 +194,8 @@ class CachedAliasCounter {
     }
     var builtArgs = args.toString();
     // Remove trailing ','
-    if (builtArgs.endsWith(",")) builtArgs = builtArgs.substring(0, builtArgs.length - 1);
+    if (builtArgs.endsWith(","))
+      builtArgs = builtArgs.substring(0, builtArgs.length - 1);
     return "$type($builtArgs)";
   }
 

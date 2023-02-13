@@ -14,9 +14,9 @@ class GeneratedAssociatedItemTypeToken {
   String get prefixedCode => genPrefix.str(code);
 
   String prefixedCodeWithAliasedTypes(CachedAliasCounter counter) {
-    return genPrefix.str("ItemAssociatedTypeToken<${counter.get(origin)},${counter.get(item)}>()");
+    return genPrefix.str(
+        "ItemAssociatedTypeToken<${counter.get(origin)},${counter.get(item)}>()");
   }
-
 }
 
 class GeneratedTypeToken {

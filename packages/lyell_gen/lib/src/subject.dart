@@ -54,8 +54,11 @@ class SubjectGenContext<TElement extends Element> {
 
   SubjectGenContext(this.adapter, this.library, this.matches, this.step);
 
-  SubjectDescriptor defaultBinding() =>
-      SubjectDescriptor(uri: step.inputId.changeExtension(".${adapter.archetype}.g.dart").uri.toString());
+  SubjectDescriptor defaultBinding() => SubjectDescriptor(
+      uri: step.inputId
+          .changeExtension(".${adapter.archetype}.g.dart")
+          .uri
+          .toString());
 }
 
 class SubjectCodeContext {
