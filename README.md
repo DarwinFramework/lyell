@@ -6,7 +6,7 @@ Generator utilities used by darwin and dogs.
 Utilities for working with aliased imports and file augmentations which don't use partial files.
 - **AliasCounter**  
 Incremental import alias generator to avoid conflicting type names. 
-- **CachedAliasCounter**
+- **CachedAliasCounter**  
 Cached version of the alias counter also capable of generating an alias source representation of
 constantly evaluable dart objects like annotations. 
 - **TypeTokens**  
