@@ -2,6 +2,7 @@
 library lyell_gen;
 
 export 'src/annotations.dart';
+export 'src/extensions.dart';
 export 'src/imports.dart';
 export 'src/introspect.dart';
 export 'src/subject.dart';

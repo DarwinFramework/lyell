@@ -12,15 +12,15 @@ class TestSubjectImpl extends TestSubjectAdapter {
   TestSubjectImpl() : super(archetype: 'impl', annotation: RetainedAnnotation);
 
   @override
-  FutureOr<SubjectDescriptor> generateBinding(SubjectGenContext<Element> context) {
-    var descriptor = context.defaultBinding();
+  FutureOr<SubjectDescriptor> generateDescriptor(SubjectGenContext<ClassElement> context) {
+    var descriptor = context.defaultDescriptor();
     descriptor.meta["names"] = context.matches.map((e) => e.name).toList();
     return descriptor;
   }
 
   @override
-  FutureOr<void> generateSubject(SubjectGenContext<Element> genContext, SubjectCodeContext codeContext) {
-    codeContext.codeBuffer.writeln("final names = [${genContext.matches.map((e) => "'${e.name}'").join(",")}];");
+  FutureOr<void> generateSubject(SubjectGenContext<ClassElement> genContext, SubjectCodeContext codeContext) {
+    codeContext.codeBuffer.writeln("final names = [${genContext.matches.map((e) => "(${codeContext.className(e)}).toString()").join(",")}];");
   }
 
 }

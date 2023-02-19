@@ -3,6 +3,7 @@ import 'dart:convert';
 
 import 'package:analyzer/dart/element/element.dart';
 import 'package:build/build.dart';
+import 'package:collection/collection.dart';
 import 'package:dart_style/dart_style.dart';
 import 'package:glob/glob.dart';
 import 'package:lyell_gen/lyell_gen.dart';
@@ -12,6 +13,9 @@ abstract class SubjectAdapter<TAnnotation, TElement extends Element> {
   final String descriptorExtension;
   final String archetype;
   final Type annotation;
+
+  bool importSourceFile = true;
+  bool copySourceImports = false;
 
   late Builder descriptorBuilder;
   late Builder subjectBuilder;
@@ -41,9 +45,9 @@ abstract class SubjectAdapter<TAnnotation, TElement extends Element> {
   FutureOr<bool> doesOutput(SubjectGenContext<TElement> genContext) => true;
 
   FutureOr<void> generateSubject(
-      SubjectGenContext genContext, SubjectCodeContext codeContext);
+      SubjectGenContext<TElement> genContext, SubjectCodeContext codeContext);
 
-  FutureOr<SubjectDescriptor> generateBinding(SubjectGenContext context);
+  FutureOr<SubjectDescriptor> generateDescriptor(SubjectGenContext<TElement> context);
 }
 
 class SubjectGenContext<TElement extends Element> {
@@ -51,10 +55,13 @@ class SubjectGenContext<TElement extends Element> {
   final LibraryReader library;
   final List<TElement> matches;
   final BuildStep step;
+  
+  TElement get first => matches.first;
+  TElement? get firstOrNull => matches.firstOrNull;
 
   SubjectGenContext(this.adapter, this.library, this.matches, this.step);
 
-  SubjectDescriptor defaultBinding() => SubjectDescriptor(
+  SubjectDescriptor defaultDescriptor() => SubjectDescriptor(
       uri: step.inputId
           .changeExtension(".${adapter.archetype}.g.dart")
           .uri
@@ -66,7 +73,13 @@ class SubjectCodeContext {
   final StringBuffer codeBuffer;
   bool noGenerate = false;
 
-  SubjectCodeContext(this.additionalImports, this.codeBuffer);
+  late AliasCounter incrementalCounter;
+  late CachedAliasCounter cachedCounter;
+
+  SubjectCodeContext(this.additionalImports, this.codeBuffer) {
+    incrementalCounter = AliasCounter.withImports(additionalImports);
+    cachedCounter = CachedAliasCounter.withImports(incrementalCounter, additionalImports);
+  }
 }
 
 class _ServiceAdapterDescriptorBuilder<TAnnotation, TElement extends Element>
@@ -80,7 +93,7 @@ class _ServiceAdapterDescriptorBuilder<TAnnotation, TElement extends Element>
     var context = await adapter._createContext(buildStep);
     if (context == null) return;
     if (!await adapter.doesOutput(context)) return;
-    var binding = await adapter.generateBinding(context);
+    var binding = await adapter.generateDescriptor(context);
     await buildStep.writeAsString(
         buildStep.inputId.changeExtension(
             ".${adapter.archetype}.${adapter.descriptorExtension}"),
@@ -109,8 +122,12 @@ class _ServiceAdapterServiceBuilder<TAnnotation, TElement extends Element>
     var codeContext = SubjectCodeContext(additionalImports, passedCodeBuffer);
     await adapter.generateSubject(genContext, codeContext);
     var codeBuffer = StringBuffer();
-    codeBuffer.writeln(getImportString(genContext.library.element,
-        genContext.step.inputId, additionalImports));
+    var importString = createImports(
+      library: (adapter.copySourceImports ? genContext.library.element : null),
+      id: (adapter.importSourceFile ? genContext.step.inputId : null),
+      imports: additionalImports
+    );
+    codeBuffer.writeln(importString);
     codeBuffer.writeln(passedCodeBuffer.toString());
     if (codeContext.noGenerate) return;
     await buildStep.writeAsString(

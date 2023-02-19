@@ -87,8 +87,13 @@ String createImports(
 }
 
 /// Utility for incrementally generating aliases for imports to avoid conflicts.
-class AliasCounter {
+class AliasCounter extends TypeStringifier {
+
+  List<AliasImport> imports = [];
   int _value = 0;
+
+  AliasCounter();
+  AliasCounter.withImports(this.imports);
 
   int getAndIncrement() {
     return _value++;
@@ -107,6 +112,7 @@ class AliasCounter {
     if (importBuffer != null) {
       importBuffer.add(AliasImport.type(type, prefix.prefix));
     }
+    imports.add(AliasImport.type(type, prefix.prefix));
     var element = type.element!;
     if (type is ParameterizedType && type.typeArguments.isNotEmpty) {
       return prefix.str(
@@ -114,6 +120,11 @@ class AliasCounter {
     } else {
       return prefix.str(element.name!);
     }
+  }
+
+  @override
+  String get(DartType type, [AliasedPrefix? prefix]) {
+    return ephemeral(type, null, (prefix ?? genPrefix).prefix);
   }
 }
 

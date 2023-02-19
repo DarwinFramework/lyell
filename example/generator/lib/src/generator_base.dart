@@ -14,9 +14,9 @@ class TestBuilder extends Builder {
     var reader = LibraryReader(library);
     var asset = buildStep.inputId;
     var hasOutput = false;
-    AliasCounter counter = AliasCounter();
-    CachedAliasCounter cachedCounter = CachedAliasCounter(counter);
     List<AliasImport> additionalImports = [];
+    AliasCounter counter = AliasCounter.withImports(additionalImports);
+    CachedAliasCounter cachedCounter = CachedAliasCounter.withImports(counter, additionalImports);
     StringBuffer codeBuffer = StringBuffer();
     additionalImports.add(AliasImport.gen("package:lyell/lyell.dart"));
     print("Checking $asset");
@@ -37,8 +37,6 @@ class TestBuilder extends Builder {
     }
 
     if (!hasOutput) return;
-
-    additionalImports.addAll(cachedCounter.imports);
     var imports = createImports(imports: additionalImports);
     var formatted = DartFormatter().format(imports + codeBuffer.toString());
     await buildStep.writeAsString(asset.changeExtension(".test.g.dart"), formatted);
