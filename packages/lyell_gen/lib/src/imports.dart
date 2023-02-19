@@ -118,12 +118,13 @@ class AliasCounter {
 }
 
 /// Utility for generating cached incrementally generated aliases using [AliasCounter].
-class CachedAliasCounter {
+class CachedAliasCounter extends TypeStringifier {
   List<AliasImport> imports = [];
   Map<String, AliasedPrefix> importPrefixes = {};
   AliasCounter counter;
 
   CachedAliasCounter(this.counter);
+  CachedAliasCounter.withImports(this.counter, this.imports);
 
   /// Retrieves the import alias for [import].
   AliasedPrefix getImportAlias(String import) {
@@ -138,7 +139,9 @@ class CachedAliasCounter {
   }
 
   /// Retrieves the import alias for [type].
+  @override
   String get(DartType type, [AliasedPrefix? prefix]) {
+    if (type.isVoid || type.isDynamic) return type.getDisplayString(withNullability: false);
     var import = getWidestImport(type);
     var prefix = getImportAlias(import);
     var element = type.element!;
@@ -149,6 +152,15 @@ class CachedAliasCounter {
       return prefix.str(element.name!);
     }
   }
+
+  String mapParameter(ParameterElement element, DartObject? object) {
+    if (object == null || object.isNull) return "null";
+    return object.toString();
+  }
+}
+
+abstract class TypeStringifier {
+  String get(DartType type, [AliasedPrefix? prefix]);
 
   /// Converts a compile-time evaluated [DartObject] to an aliased source
   /// representation where all types are incrementally aliased using this
@@ -202,11 +214,6 @@ class CachedAliasCounter {
       builtArgs = builtArgs.substring(0, builtArgs.length - 1);
     }
     return "$type($builtArgs)";
-  }
-
-  String mapParameter(ParameterElement element, DartObject? object) {
-    if (object == null || object.isNull) return "null";
-    return object.toString();
   }
 }
 
