@@ -1,3 +1,11 @@
+## 0.1.0
+
+> Note: This release has breaking changes.
+
+ - **REFACTOR**: update CachedAliasCounter and fixed get(void).
+ - **REFACTOR**: add clarifying brackets.
+ - **BREAKING** **REFACTOR**: fix naming, add qol features.
+
 ## 0.0.2
 
  - **REFACTOR**: reformat code.
