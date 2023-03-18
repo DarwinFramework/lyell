@@ -4,6 +4,7 @@ import 'package:analyzer/dart/element/element.dart';
 import 'package:analyzer/dart/element/type.dart';
 import 'package:build/build.dart';
 import 'package:lyell/lyell.dart';
+import 'package:mutex/mutex.dart';
 import 'package:source_gen/source_gen.dart';
 
 bool _isInitialized = false;
@@ -30,29 +31,36 @@ TypeChecker futureChecker = TypeChecker.fromRuntime(Future);
 TypeChecker cascadeTypeChecker = TypeChecker.fromRuntime(CascadeItemType);
 late TypeChecker futureOrChecker;
 
-/// Initializes deeper introspection capabilities
-Future tryInitialize(BuildStep step) async {
-  if (_isInitialized) return;
-  _isInitialized = true;
-  var coreLibrary = await step.resolver.findLibraryByName("dart.core");
-  var asyncLibrary = await step.resolver.findLibraryByName("dart.async");
-  var lyellLibrary = await step.resolver
-      .libraryFor(AssetId.resolve(Uri.parse("package:lyell/lyell.dart")));
-  coreLibraryReader = LibraryReader(coreLibrary!);
-  asyncLibraryReader = LibraryReader(asyncLibrary!);
-  lyellLibraryReader = LibraryReader(lyellLibrary);
+var _initLock = Mutex();
 
-  iterableInterface =
-      coreLibraryReader.findType("Iterable") as InterfaceElement;
-  listInterface = coreLibraryReader.findType("List") as InterfaceElement;
-  setInterface = coreLibraryReader.findType("Set") as InterfaceElement;
-  streamInterface = asyncLibraryReader.findType("Stream") as InterfaceElement;
-  futureInterface = asyncLibraryReader.findType("Future") as InterfaceElement;
-  futureOrInterface =
-      asyncLibraryReader.findType("FutureOr") as InterfaceElement;
-  cascadeTypeInterface =
-      lyellLibraryReader.findType("CascadeItemType") as InterfaceElement;
-  futureOrChecker = TypeChecker.fromStatic(futureOrInterface.thisType);
+/// Initializes deeper introspection capabilities.
+Future tryInitialize(BuildStep step) async {
+  await _initLock.acquire();
+  try {
+    if (_isInitialized) return;
+    _isInitialized = true;
+    var coreLibrary = await step.resolver.findLibraryByName("dart.core");
+    var asyncLibrary = await step.resolver.findLibraryByName("dart.async");
+    var lyellLibrary = await step.resolver
+        .libraryFor(AssetId.resolve(Uri.parse("package:lyell/lyell.dart")));
+    coreLibraryReader = LibraryReader(coreLibrary!);
+    asyncLibraryReader = LibraryReader(asyncLibrary!);
+    lyellLibraryReader = LibraryReader(lyellLibrary);
+
+    iterableInterface =
+    coreLibraryReader.findType("Iterable") as InterfaceElement;
+    listInterface = coreLibraryReader.findType("List") as InterfaceElement;
+    setInterface = coreLibraryReader.findType("Set") as InterfaceElement;
+    streamInterface = asyncLibraryReader.findType("Stream") as InterfaceElement;
+    futureInterface = asyncLibraryReader.findType("Future") as InterfaceElement;
+    futureOrInterface =
+    asyncLibraryReader.findType("FutureOr") as InterfaceElement;
+    cascadeTypeInterface =
+    lyellLibraryReader.findType("CascadeItemType") as InterfaceElement;
+    futureOrChecker = TypeChecker.fromStatic(futureOrInterface.thisType);
+  } finally {
+    _initLock.release();
+  }
 }
 
 ///

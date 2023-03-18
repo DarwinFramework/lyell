@@ -90,6 +90,7 @@ class _ServiceAdapterDescriptorBuilder<TAnnotation, TElement extends Element>
 
   @override
   FutureOr<void> build(BuildStep buildStep) async {
+    await tryInitialize(buildStep);
     var context = await adapter._createContext(buildStep);
     if (context == null) return;
     if (!await adapter.doesOutput(context)) return;
@@ -114,6 +115,7 @@ class _ServiceAdapterServiceBuilder<TAnnotation, TElement extends Element>
 
   @override
   FutureOr<void> build(BuildStep buildStep) async {
+    await tryInitialize(buildStep);
     var genContext = await adapter._createContext(buildStep);
     if (genContext == null) return;
     if (!await adapter.doesOutput(genContext)) return;
@@ -174,6 +176,7 @@ abstract class SubjectReactorBuilder extends Builder {
 
   @override
   FutureOr<void> build(BuildStep buildStep) async {
+    await tryInitialize(buildStep);
     var descriptorIds =
         await buildStep.findAssets(Glob("**.$descriptorExtension")).toList();
     List<AliasImport> imports = [];

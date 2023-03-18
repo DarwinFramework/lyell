@@ -20,12 +20,16 @@ class TestBuilder extends Builder {
     StringBuffer codeBuffer = StringBuffer();
     additionalImports.add(AliasImport.gen("package:lyell/lyell.dart"));
     print("Checking $asset");
+    await tryInitialize(buildStep);
     for (var clazz in reader.classes.where((element) => element.documentationComment?.contains("@@Marker") ?? false)) {
       // Example for generating type tokens
       for (var element in clazz.fields) {
         var token = await getAssociatedTypeToken(element.type, buildStep);
         codeBuffer.writeln("const \$${clazz.name}_${element.name} = ${token.prefixedCodeWithAliasedTypes(cachedCounter)};");
         codeBuffer.writeln("final \$${clazz.name}_${element.name}_aliased = ${cachedCounter.get(element.type)};");
+        var serialized = serializeType(element.type);
+        var deserialized = await deserializeType(serialized, buildStep);
+        log.info("${clazz.name}.${element.name}: $serialized, $deserialized");
       }
 
       // Example for using retained annotations

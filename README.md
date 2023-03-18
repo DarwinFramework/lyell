@@ -2,6 +2,10 @@
 Generator utilities used by darwin and dogs.
 
 ## Contents
+- **Library & Type Resolution**
+Utilities for easily resolving types and library at runtime in builder environments.
+- **Type Serialization**
+Serialization support for DartTypes for use in cached build files. 
 - **AliasedImport**  
 Utilities for working with aliased imports and file augmentations which don't use partial files.
 - **AliasCounter**  

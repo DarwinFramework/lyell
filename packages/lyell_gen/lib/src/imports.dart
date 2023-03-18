@@ -2,7 +2,10 @@ import 'package:analyzer/dart/constant/value.dart';
 import 'package:analyzer/dart/element/element.dart';
 import 'package:analyzer/dart/element/type.dart';
 import 'package:build/build.dart';
+import 'package:lyell_gen/lyell_gen.dart';
 import 'package:source_gen/source_gen.dart';
+
+import 'libraries.dart';
 
 const String genAlias = "gen";
 final AliasedPrefix genPrefix = AliasedPrefix(genAlias);
@@ -15,13 +18,17 @@ class AliasImport {
   const AliasImport(this.import, this.alias);
 
   factory AliasImport.root(String import) => AliasImport(import, null);
+
   factory AliasImport.gen(String import) => AliasImport(import, genAlias);
+
   factory AliasImport.type(DartType type, [String? alias]) {
-    return AliasImport(getWidestImport(type), alias);
+    return AliasImport(type.import!, alias);
   }
+
   factory AliasImport.library(LibraryElement element, [String? alias]) {
     return AliasImport(element.source.uri.toString(), alias);
   }
+
   String get code => "import '$import'${alias == null ? "" : " as $alias"};";
 
   @override
@@ -42,13 +49,11 @@ class AliasImport {
 /// type. When [type] is exported by its library, the library will be referenced,
 /// otherwise the direct source file of the [type] will be referenced as the type
 /// would be unreachable via just importing the library.
+@Deprecated("Use getImport() instead.")
 String getWidestImport(DartType type) {
-  var library = type.element!.library!;
-  if (library.getClass(type.element!.name!) != null) {
-    return library.source.uri.toString();
-  }
-  return type.element!.source!.uri.toString();
+  return getImport(type)!;
 }
+
 
 /// Utility for creating a non partial augmentation class for the give asset [id]
 /// with the [library]. The [additional] imports are also added to the the import
@@ -88,11 +93,11 @@ String createImports(
 
 /// Utility for incrementally generating aliases for imports to avoid conflicts.
 class AliasCounter extends TypeStringifier {
-
   List<AliasImport> imports = [];
   int _value = 0;
 
   AliasCounter();
+
   AliasCounter.withImports(this.imports);
 
   int getAndIncrement() {
@@ -135,6 +140,7 @@ class CachedAliasCounter extends TypeStringifier {
   AliasCounter counter;
 
   CachedAliasCounter(this.counter);
+
   CachedAliasCounter.withImports(this.counter, this.imports);
 
   /// Retrieves the import alias for [import].
@@ -152,8 +158,10 @@ class CachedAliasCounter extends TypeStringifier {
   /// Retrieves the import alias for [type].
   @override
   String get(DartType type, [AliasedPrefix? prefix]) {
-    if (type.isVoid || type.isDynamic) return type.getDisplayString(withNullability: false);
-    var import = getWidestImport(type);
+    var import = type.import;
+    if (import == null) {
+      return type.getDisplayString(withNullability: false);
+    }
     var prefix = getImportAlias(import);
     var element = type.element!;
     if (type is ParameterizedType && type.typeArguments.isNotEmpty) {
@@ -230,6 +238,7 @@ abstract class TypeStringifier {
 
 class AliasedPrefix {
   String prefix;
+
   AliasedPrefix(this.prefix);
 
   @override

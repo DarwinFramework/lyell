@@ -21,8 +21,10 @@ class TestClass {
   NonCascadingObject<bool> e;
   List<bool> f;
   List<CascadingObject<int>> g;
+  List<dynamic> h;
+  Future<Stream<Symbol>> i;
 
-  TestClass(this.a, this.b, this.c, this.d, this.e, this.f, this.g);
+  TestClass(this.a, this.b, this.c, this.d, this.e, this.f, this.g, this.h, this.i);
 }
 
 class TestAnnotation extends RetainedAnnotation {
