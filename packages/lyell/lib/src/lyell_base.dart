@@ -13,6 +13,10 @@ abstract class TypeCapture<T> {
   Type get deriveFuture => Future<T>;
   Type get deriveFutureOr => FutureOr<T>;
   Type get deriveStream => Stream<T>;
+
+  List<T> castList(List<dynamic> list) => list.cast<T>();
+  Set<T> castSet(Set<dynamic> set) => set.cast<T>();
+  Iterable<T> castIterable(Iterable<T> iterable) => iterable.cast<T>();
 }
 
 /// Mixin for adding the [TypeCapture] interface to classes.
@@ -31,6 +35,13 @@ mixin TypeCaptureMixin<T> implements TypeCapture<T> {
   Type get deriveFutureOr => FutureOr<T>;
   @override
   Type get deriveStream => Stream<T>;
+
+  @override
+  List<T> castList(List<dynamic> list) => list.cast<T>();
+  @override
+  Set<T> castSet(Set<dynamic> set) => set.cast<T>();
+  @override
+  Iterable<T> castIterable(Iterable<T> iterable) => iterable.cast<T>();
 }
 
 /// Defines the item type of the implementing class.
