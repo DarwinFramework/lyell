@@ -1,3 +1,9 @@
+## 0.2.0
+
+> Note: This release has breaking changes.
+
+ - **BREAKING** **FEAT**: add library proxies for extensible imports, add locks to tryInitialize, add serialize.
+
 ## 0.1.0
 
 > Note: This release has breaking changes.
