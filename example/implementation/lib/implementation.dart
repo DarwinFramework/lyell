@@ -5,12 +5,6 @@ int calculate() {
   return 6 * 7;
 }
 
-const TestAnnotation test = TestAnnotation("Hello World!",
-    sym: #MySymbol,
-    li: [1, 2, 3],
-    map: {"yes": true, "no": false},
-    n1: N1Obj("Moin!", [N2Obj(true), N2Obj(true), N2Obj(false)]));
-
 /// @@Marker
 @test
 @SecondAnnotation()

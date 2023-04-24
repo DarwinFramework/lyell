@@ -16,7 +16,7 @@ String getRetainedAnnotationSourceArray(Element element,
         if (innerElement.isPrivate) {
           annotations.add(counter.toSource(value.computeConstantValue()!));
         } else {
-          var alias = counter.getImportAlias(element.library!.source.uri.toString());
+          var alias = counter.getImportAlias(innerElement.library.source.uri.toString());
           annotations.add("${alias.prefix}.${innerElement.name}");
         }
       } else {
