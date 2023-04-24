@@ -1,3 +1,7 @@
+## 0.2.0+2
+
+ - **FIX**: improve const getter based annotation handling in toSource().
+
 ## 0.2.0+1
 
  - Update a dependency to the latest release.
