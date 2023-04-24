@@ -9,7 +9,19 @@ String getRetainedAnnotationSourceArray(Element element,
     if (counter == null) {
       annotations.add(value.toSource().substring(1));
     } else {
-      annotations.add(counter.toSource(value.computeConstantValue()!));
+      var innerElement = value.element;
+      if (innerElement is ConstructorElement) {
+        annotations.add(counter.toSource(value.computeConstantValue()!));
+      } else if (innerElement is PropertyAccessorElement) {
+        if (innerElement.isPrivate) {
+          annotations.add(counter.toSource(value.computeConstantValue()!));
+        } else {
+          var alias = counter.getImportAlias(element.library!.source.uri.toString());
+          annotations.add("${alias.prefix}.${innerElement.name}");
+        }
+      } else {
+        print("Unexpected inner element of type ${innerElement.runtimeType}");
+      }
     }
   }
   if (annotations.isEmpty) return "[]";

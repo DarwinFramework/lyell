@@ -13,6 +13,7 @@ const TestAnnotation test = TestAnnotation("Hello World!",
 
 /// @@Marker
 @test
+@SecondAnnotation()
 class TestClass {
   String a;
   List<String> b;
@@ -25,6 +26,10 @@ class TestClass {
   Future<Stream<Symbol>> i;
 
   TestClass(this.a, this.b, this.c, this.d, this.e, this.f, this.g, this.h, this.i);
+}
+
+class SecondAnnotation extends RetainedAnnotation {
+  const SecondAnnotation();
 }
 
 class TestAnnotation extends RetainedAnnotation {
