@@ -1,3 +1,7 @@
+## 1.0.0
+
+ - **FEAT**: add TypeTrees.
+
 ## 0.0.3
 
  - **FEAT**: add collection casts.
