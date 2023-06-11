@@ -1,3 +1,4 @@
+import 'package:analyzer/dart/element/nullability_suffix.dart';
 import 'package:analyzer/dart/element/type.dart';
 import 'package:build/build.dart';
 import 'package:lyell_gen/lyell_gen.dart';
@@ -30,8 +31,21 @@ class GeneratedTypeToken {
   String get prefixedCode => genPrefix.str(code);
 
   String prefixedCodeWithAliasedTypes(CachedAliasCounter counter) {
-    return genPrefix.str("TypeToken<${counter.get(type)}}>()");
+    return genPrefix.str("TypeToken<${counter.get(type)}>()");
   }
+}
+
+class GeneratedTypeTree {
+
+  DartType base;
+  List<GeneratedTypeTree> parameters;
+
+  GeneratedTypeTree(this.base, this.parameters);
+
+  String code(CachedAliasCounter counter) =>
+      "gen.TypeTreeN<${counter.get(base)}>([${parameters.map((e) => e.code(counter)).join(",")}])";
+
+
 }
 
 GeneratedTypeToken getTypeToken(DartType type) => GeneratedTypeToken(type);
@@ -40,4 +54,20 @@ Future<GeneratedAssociatedItemTypeToken> getAssociatedTypeToken(
     DartType type, BuildStep step) async {
   var itemType = await getItemType(type, step);
   return GeneratedAssociatedItemTypeToken(type, itemType);
+}
+
+GeneratedTypeTree getTypeTree(DartType type) {
+  if (type is InterfaceType && type.typeArguments.isNotEmpty) {
+    var neutralTypeArgs = <DartType>[];
+    for (var element in type.element.typeParameters) {
+      if (element.bound == null) {
+        neutralTypeArgs.add(coreLibraryReader.element.typeProvider.dynamicType);
+      } else {
+        neutralTypeArgs.add(element.bound!);
+      }
+    }
+    return GeneratedTypeTree(type.element.instantiate(typeArguments: neutralTypeArgs, nullabilitySuffix: NullabilitySuffix.none), type.typeArguments.map((e) => getTypeTree(e)).toList());
+  } else {
+    return GeneratedTypeTree(type, []);
+  }
 }

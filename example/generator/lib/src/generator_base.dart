@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:build/build.dart';
 import 'package:dart_style/dart_style.dart';
+import 'package:lyell/lyell.dart';
 import 'package:lyell_gen/lyell_gen.dart';
 import 'package:source_gen/source_gen.dart';
 
@@ -10,6 +11,7 @@ class TestBuilder extends Builder {
   @override
   Future<void> build(BuildStep buildStep) async {
     print("Starting build");
+    if (!await buildStep.resolver.isLibrary(buildStep.inputId)) return;
     var library = await buildStep.inputLibrary;
     var reader = LibraryReader(library);
     var asset = buildStep.inputId;
@@ -27,6 +29,7 @@ class TestBuilder extends Builder {
         var token = await getAssociatedTypeToken(element.type, buildStep);
         codeBuffer.writeln("const \$${clazz.name}_${element.name} = ${token.prefixedCodeWithAliasedTypes(cachedCounter)};");
         codeBuffer.writeln("final \$${clazz.name}_${element.name}_aliased = ${cachedCounter.get(element.type)};");
+        codeBuffer.writeln("final \$${clazz.name}_${element.name}_token = ${getTypeTree(element.type).code(cachedCounter)};");
         var serialized = serializeType(element.type);
         var deserialized = await deserializeType(serialized, buildStep);
         log.info("${clazz.name}.${element.name}: $serialized, $deserialized");

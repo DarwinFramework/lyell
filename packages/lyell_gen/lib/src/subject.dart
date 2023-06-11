@@ -90,6 +90,7 @@ class _ServiceAdapterDescriptorBuilder<TAnnotation, TElement extends Element>
 
   @override
   FutureOr<void> build(BuildStep buildStep) async {
+    if (!await buildStep.resolver.isLibrary(buildStep.inputId)) return;
     await tryInitialize(buildStep);
     var context = await adapter._createContext(buildStep);
     if (context == null) return;
@@ -115,6 +116,7 @@ class _ServiceAdapterServiceBuilder<TAnnotation, TElement extends Element>
 
   @override
   FutureOr<void> build(BuildStep buildStep) async {
+    if (!await buildStep.resolver.isLibrary(buildStep.inputId)) return;
     await tryInitialize(buildStep);
     var genContext = await adapter._createContext(buildStep);
     if (genContext == null) return;

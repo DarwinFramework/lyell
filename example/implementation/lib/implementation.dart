@@ -1,6 +1,8 @@
 import 'package:lyell/lyell.dart';
 import 'secondFile.dart';
 
+part 'partFile.dart';
+
 int calculate() {
   return 6 * 7;
 }
@@ -18,6 +20,7 @@ class TestClass {
   List<CascadingObject<int>> g;
   List<dynamic> h;
   Future<Stream<Symbol>> i;
+  late RestrictedClassGeneric j;
 
   TestClass(this.a, this.b, this.c, this.d, this.e, this.f, this.g, this.h, this.i);
 }
@@ -61,3 +64,5 @@ class N2Obj {
 
 @TypeToken<String>()
 class AAC {}
+
+class RestrictedClassGeneric<T extends num> {}

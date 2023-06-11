@@ -278,14 +278,14 @@ packages:
       path: "../../packages/lyell"
       relative: true
     source: path
-    version: "0.0.2"
+    version: "0.0.3"
   lyell_gen:
     dependency: "direct overridden"
     description:
       path: "../../packages/lyell_gen"
       relative: true
     source: path
-    version: "0.1.0"
+    version: "0.2.0+3"
   matcher:
     dependency: transitive
     description:
@@ -551,4 +551,4 @@ packages:
     source: hosted
     version: "3.1.1"
 sdks:
-  dart: ">=2.19.1 <3.0.0"
+  dart: ">=3.0.0 <4.0.0"

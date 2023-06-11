@@ -6,6 +6,8 @@ import 'package:collection/collection.dart';
 abstract class TypeCapture<T> {
   const TypeCapture();
 
+  TypeCapture get nullable => TypeToken<T?>();
+  bool get isNullable => null is T;
   Type get typeArgument => T;
   Type get deriveList => List<T>;
   Type get deriveSet => Set<T>;
@@ -17,11 +19,18 @@ abstract class TypeCapture<T> {
   List<T> castList(List<dynamic> list) => list.cast<T>();
   Set<T> castSet(Set<dynamic> set) => set.cast<T>();
   Iterable<T> castIterable(Iterable<T> iterable) => iterable.cast<T>();
+  bool isAssignable(dynamic object) => object is T;
+  RETURN consumeType<RETURN>(RETURN Function<_>() func) => func<T>();
+  RETURN consumeTypeArg<RETURN,ARG>(RETURN Function<_>(ARG) func, ARG arg) => func<T>(arg);
 }
 
 /// Mixin for adding the [TypeCapture] interface to classes.
 mixin TypeCaptureMixin<T> implements TypeCapture<T> {
   @override
+  TypeCapture get nullable => TypeToken<T?>();
+  @override
+  bool get isNullable => null is T;
+  @override
   Type get typeArgument => T;
   @override
   Type get deriveList => List<T>;
@@ -42,6 +51,12 @@ mixin TypeCaptureMixin<T> implements TypeCapture<T> {
   Set<T> castSet(Set<dynamic> set) => set.cast<T>();
   @override
   Iterable<T> castIterable(Iterable<T> iterable) => iterable.cast<T>();
+  @override
+  bool isAssignable(dynamic object) => object is T;
+  @override
+  RETURN consumeType<RETURN>(RETURN Function<_>() func) => func<T>();
+  @override
+  RETURN consumeTypeArg<RETURN,ARG>(RETURN Function<_>(ARG) func, ARG arg) => func<T>(arg);
 }
 
 /// Defines the item type of the implementing class.
