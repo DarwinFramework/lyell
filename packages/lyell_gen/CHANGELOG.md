@@ -1,3 +1,7 @@
+## 1.0.0
+
+ - **FEAT**: add TypeTrees.
+
 ## 0.2.0+3
 
  - **FIX**: use the right element library.
