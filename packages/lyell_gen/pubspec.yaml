@@ -1,6 +1,6 @@
 name: lyell_gen
 description: Generator utilities used by darwin and dogs.
-version: 1.0.0
+version: 1.1.0
 repository: https://github.com/DarwinFramework/lyell
 
 environment:
@@ -16,7 +16,7 @@ dependencies:
   path: '>=1.8.0 <2.0.0'
   code_builder: '>=4.3.0 <5.0.0'
   dart_style: '>=2.2.4 <3.0.0'
-  lyell: ^1.0.0
+  lyell: ^1.1.0
   mutex: ^3.0.1
   duffer: ^1.2.5
 dev_dependencies:

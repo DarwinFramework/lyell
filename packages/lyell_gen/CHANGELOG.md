@@ -1,3 +1,7 @@
+## 1.1.0
+
+ - **FEAT**: add and use qualified trees.
+
 ## 1.0.0
 
  - **FEAT**: add TypeTrees.
