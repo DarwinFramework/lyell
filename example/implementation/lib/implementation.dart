@@ -23,6 +23,11 @@ class TestClass {
   late RestrictedClassGeneric j;
 
   TestClass(this.a, this.b, this.c, this.d, this.e, this.f, this.g, this.h, this.i);
+
+
+  void test() {
+    print("Hello World!");
+  }
 }
 
 class SecondAnnotation extends RetainedAnnotation {

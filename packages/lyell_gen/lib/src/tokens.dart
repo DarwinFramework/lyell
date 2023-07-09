@@ -37,13 +37,18 @@ class GeneratedTypeToken {
 
 class GeneratedTypeTree {
 
+  DartType qualified;
   DartType base;
   List<GeneratedTypeTree> parameters;
 
-  GeneratedTypeTree(this.base, this.parameters);
+  GeneratedTypeTree(this.qualified, this.base, this.parameters);
 
-  String code(CachedAliasCounter counter) =>
-      "gen.TypeTreeN<${counter.get(base)}>([${parameters.map((e) => e.code(counter)).join(",")}])";
+  String code(CachedAliasCounter counter) {
+    if (parameters.isEmpty) {
+      return "gen.QualifiedTerminal<${counter.get(qualified)}>()";
+    }
+    return "gen.QualifiedTypeTreeN<${counter.get(qualified)},${counter.get(base)}>([${parameters.map((e) => e.code(counter)).join(",")}])";
+  }
 
 
 }
@@ -66,8 +71,8 @@ GeneratedTypeTree getTypeTree(DartType type) {
         neutralTypeArgs.add(element.bound!);
       }
     }
-    return GeneratedTypeTree(type.element.instantiate(typeArguments: neutralTypeArgs, nullabilitySuffix: NullabilitySuffix.none), type.typeArguments.map((e) => getTypeTree(e)).toList());
+    return GeneratedTypeTree(type,type.element.instantiate(typeArguments: neutralTypeArgs, nullabilitySuffix: NullabilitySuffix.none), type.typeArguments.map((e) => getTypeTree(e)).toList());
   } else {
-    return GeneratedTypeTree(type, []);
+    return GeneratedTypeTree(type, type, []);
   }
 }
