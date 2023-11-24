@@ -131,6 +131,14 @@ class AliasCounter extends TypeStringifier {
   String get(DartType type, [AliasedPrefix? prefix]) {
     return ephemeral(type, null, (prefix ?? genPrefix).prefix);
   }
+
+  @override
+  String getLibraryAlias(LibraryElement element) {
+    var importString = element.source.uri.toString();
+    var alias = getNextPrefix().prefix;
+    imports.add(AliasImport.library(element, alias));
+    return alias;
+  }
 }
 
 /// Utility for generating cached incrementally generated aliases using [AliasCounter].
@@ -176,10 +184,19 @@ class CachedAliasCounter extends TypeStringifier {
     if (object == null || object.isNull) return "null";
     return object.toString();
   }
+
+  @override
+  String getLibraryAlias(LibraryElement element) {
+    var importString = element.source.uri.toString();
+    return getImportAlias(importString).prefix;
+  }
 }
 
 abstract class TypeStringifier {
   String get(DartType type, [AliasedPrefix? prefix]);
+
+  String getLibraryAlias(LibraryElement element);
+
 
   /// Converts a compile-time evaluated [DartObject] to an aliased source
   /// representation where all types are incrementally aliased using this
