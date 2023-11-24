@@ -238,6 +238,19 @@ abstract class TypeStringifier {
       return "{${reader.mapValue.map((key, value) => MapEntry(toSource(key!), toSource(value!))).entries.map((e) => "${e.key}:${e.value}").join(",")}}";
     }
 
+    // Handle functions
+    if (object.type is FunctionType) {
+      var function = object.toFunctionValue()!;
+      if (function is FunctionElement){
+        if (function.location?.components.last == "topLevelFunc") {
+          return "${getLibraryAlias(function.library)}.${function.name}";
+        }
+      } else if (function is MethodElement) {
+        var classElement = function.enclosingElement as ClassElement;
+        return "${get(classElement.thisType)}.${function.name}";
+      }
+    }
+
     // Handle objects
     if (object.type!.isDartCoreFunction) {
       throw UnsupportedError("Functions are not supported");
@@ -258,6 +271,7 @@ abstract class TypeStringifier {
       args.write(",");
     }
     var builtArgs = args.toString();
+
     // Remove trailing ','
     if (builtArgs.endsWith(",")) {
       builtArgs = builtArgs.substring(0, builtArgs.length - 1);
