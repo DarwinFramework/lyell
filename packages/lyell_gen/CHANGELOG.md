@@ -1,3 +1,10 @@
+## 1.2.0
+
+ - **FIX**: remove UnsupportedError for now implemented feature.
+ - **FEAT**: handle functions in toSource.
+ - **FEAT**: handle variable references in toSource.
+ - **FEAT**: add getLibraryAlias.
+
 ## 1.1.0
 
  - **FEAT**: add and use qualified trees.
