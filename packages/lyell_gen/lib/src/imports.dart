@@ -213,6 +213,19 @@ abstract class TypeStringifier {
     if (reader.isString) return "'${reader.stringValue.toString()}'";
     if (reader.isSymbol) return reader.symbolValue.toString();
     if (reader.isType) return get(reader.typeValue);
+    if (object.variable != null) {
+      var variable = object.variable!;
+      if (!variable.isPrivate) {
+        if (variable is TopLevelVariableElement) {
+          return "${getLibraryAlias(variable.library)}.${variable.name}";
+        } else if (variable is FieldElement) {
+          var classElement = variable.enclosingElement as ClassElement;
+          return "${get(classElement.thisType)}.${variable.name}";
+        }
+      } else {
+        log.warning("Consider using a public variable instead of the private const variable ${variable.name}.");
+      }
+    }
 
     // Handle generic collections
     if (reader.isList) {
