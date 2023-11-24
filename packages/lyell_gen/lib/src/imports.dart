@@ -252,9 +252,6 @@ abstract class TypeStringifier {
     }
 
     // Handle objects
-    if (object.type!.isDartCoreFunction) {
-      throw UnsupportedError("Functions are not supported");
-    }
     var revived = reader.revive();
     var type = get(object.type!);
 
