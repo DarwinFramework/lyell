@@ -3,9 +3,8 @@ import 'dart:mirrors';
 import 'package:analyzer/dart/constant/value.dart';
 import 'package:analyzer/dart/element/element.dart';
 import 'package:analyzer/dart/element/type.dart';
-import 'package:analyzer/dart/element/type.dart' as analyzerType;
+import 'package:analyzer/dart/element/type.dart' as analyzer_type;
 import 'package:build/build.dart';
-import 'package:code_builder/code_builder.dart';
 import 'package:lyell_gen/lyell_gen.dart';
 import 'package:source_gen/source_gen.dart';
 
@@ -138,7 +137,6 @@ class AliasCounter extends TypeStringifier {
 
   @override
   String getLibraryAlias(LibraryElement element) {
-    var importString = element.source.uri.toString();
     var alias = getNextPrefix().prefix;
     imports.add(AliasImport.library(element, alias));
     return alias;
@@ -253,7 +251,7 @@ abstract class TypeStringifier {
     }
 
     // Handle functions
-    if (object.type is analyzerType.FunctionType) {
+    if (object.type is analyzer_type.FunctionType) {
       var function = object.toFunctionValue()!;
       if (function is FunctionElement){
         if (function.location?.components.last == "topLevelFunc") {
