@@ -1,7 +1,11 @@
+import 'dart:mirrors';
+
 import 'package:analyzer/dart/constant/value.dart';
 import 'package:analyzer/dart/element/element.dart';
 import 'package:analyzer/dart/element/type.dart';
+import 'package:analyzer/dart/element/type.dart' as analyzerType;
 import 'package:build/build.dart';
+import 'package:code_builder/code_builder.dart';
 import 'package:lyell_gen/lyell_gen.dart';
 import 'package:source_gen/source_gen.dart';
 
@@ -192,6 +196,15 @@ class CachedAliasCounter extends TypeStringifier {
   }
 }
 
+/// Escapes a string for use in a single quoted string literal.
+String sqsLiteralEscape(String input) => input
+    .replaceAll('\\', '\\\\') // Escape backslashes
+    .replaceAll('\'', '\\\'') // Escape single quotes
+    .replaceAll('\n', '\\n')  // Escape newlines
+    .replaceAll('\r', '\\r')  // Escape carriage returns
+    .replaceAll('\t', '\\t') // Escape tabs
+    .replaceAll('\$', '\\\$'); // Escape tabs
+
 abstract class TypeStringifier {
   String get(DartType type, [AliasedPrefix? prefix]);
 
@@ -210,8 +223,9 @@ abstract class TypeStringifier {
     if (reader.isInt) return reader.intValue.toString();
     if (reader.isDouble) return reader.doubleValue.toString();
     if (reader.isBool) return reader.boolValue.toString();
-    if (reader.isString) return "'${reader.stringValue.toString()}'";
-    if (reader.isSymbol) return reader.symbolValue.toString();
+    if (reader.isString) return "'${sqsLiteralEscape(reader.stringValue)}'";
+
+    if (reader.isSymbol) return "#${MirrorSystem.getName(reader.symbolValue)}";
     if (reader.isType) return get(reader.typeValue);
     if (object.variable != null) {
       var variable = object.variable!;
@@ -239,7 +253,7 @@ abstract class TypeStringifier {
     }
 
     // Handle functions
-    if (object.type is FunctionType) {
+    if (object.type is analyzerType.FunctionType) {
       var function = object.toFunctionValue()!;
       if (function is FunctionElement){
         if (function.location?.components.last == "topLevelFunc") {

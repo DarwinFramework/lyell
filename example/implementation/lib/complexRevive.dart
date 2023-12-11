@@ -28,6 +28,8 @@ const _privateGlobalInner = PublicInner();
 @ComplexConst(ComplexInner.constInst)
 @ComplexConst(globalInner)
 @ComplexConst(_privateGlobalInner)
+@ComplexConst(#test)
+@ComplexConst("\\\\\\This \\\\is\"\"'' a \\string\$\n🇩🇪")
 class TestCase {
 
 }
