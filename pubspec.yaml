@@ -1,4 +1,4 @@
-name: dogs_project
+name: lyell_project
 
 environment:
   sdk: '>=2.18.0 <3.0.0'
