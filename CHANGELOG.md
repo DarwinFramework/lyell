@@ -3,6 +3,27 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## 2023-12-11
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
+ - [`lyell_gen` - `v1.2.1`](#lyell_gen---v121)
+
+---
+
+#### `lyell_gen` - `v1.2.1`
+
+ - **FIX**: handle strings with content that requires escapes.
+
+
 ## 2023-11-24
 
 ### Changes

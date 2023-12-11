@@ -1,3 +1,7 @@
+## 1.2.1
+
+ - **FIX**: handle strings with content that requires escapes.
+
 ## 1.2.0
 
  - **FIX**: remove UnsupportedError for now implemented feature.
