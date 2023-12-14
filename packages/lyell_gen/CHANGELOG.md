@@ -1,3 +1,8 @@
+## 1.2.2
+
+ - **REFACTOR**: remove unused imports and fix alias naming.
+ - **FIX**: edge-cases where top level functions aren't resolved correctly.
+
 ## 1.2.1
 
  - **FIX**: handle strings with content that requires escapes.
