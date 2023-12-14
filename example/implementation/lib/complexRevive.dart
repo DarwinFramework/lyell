@@ -1,3 +1,4 @@
+import 'package:implementation/thirdFile.dart';
 import 'package:lyell/lyell.dart';
 
 class ComplexConst implements RetainedAnnotation {
@@ -30,6 +31,14 @@ const _privateGlobalInner = PublicInner();
 @ComplexConst(_privateGlobalInner)
 @ComplexConst(#test)
 @ComplexConst("\\\\\\This \\\\is\"\"'' a \\string\$\n🇩🇪")
+@ComplexConst(generator)
+@ComplexConst(foreignGenerator)
+@ComplexConst(InsideGenerator.generator)
+@ComplexConst(identical)
 class TestCase {
 
+}
+
+String generator() {
+  return "Hello World!";
 }

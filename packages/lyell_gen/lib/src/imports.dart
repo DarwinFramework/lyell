@@ -253,13 +253,18 @@ abstract class TypeStringifier {
     // Handle functions
     if (object.type is analyzer_type.FunctionType) {
       var function = object.toFunctionValue()!;
-      if (function is FunctionElement){
-        if (function.location?.components.last == "topLevelFunc") {
-          return "${getLibraryAlias(function.library)}.${function.name}";
+      if (function is FunctionElement) {
+        var enclosingElement = function.enclosingElement;
+        if (enclosingElement is CompilationUnitElement) {
+          return "${getLibraryAlias(enclosingElement.library)}.${function.name}";
+        } else {
+          log.severe("Unexpected enclosing element of type ${enclosingElement.runtimeType}. Expected CompilationUnitElement");
         }
       } else if (function is MethodElement) {
         var classElement = function.enclosingElement as ClassElement;
         return "${get(classElement.thisType)}.${function.name}";
+      } else {
+        log.severe("Unexpected function element of type ${function.runtimeType}. Expected FunctionElement or MethodElement");
       }
     }
 
