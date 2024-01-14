@@ -231,8 +231,8 @@ abstract class TypeStringifier {
         if (variable is TopLevelVariableElement) {
           return "${getLibraryAlias(variable.library)}.${variable.name}";
         } else if (variable is FieldElement) {
-          var classElement = variable.enclosingElement as ClassElement;
-          return "${get(classElement.thisType)}.${variable.name}";
+          var interfaceElement = variable.enclosingElement as InterfaceElement;
+          return "${get(interfaceElement.thisType)}.${variable.name}";
         }
       } else {
         log.warning("Consider using a public variable instead of the private const variable ${variable.name}.");

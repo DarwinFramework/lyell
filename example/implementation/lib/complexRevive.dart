@@ -28,6 +28,10 @@ class ForceSecondary {
   const ForceSecondary.named(int v) : val = v, hidden = v + 1;
 }
 
+enum TestEnum {
+  a,b
+}
+
 const globalInner = _PrivateInner();
 
 // This is still technically publicly accessible
@@ -44,6 +48,7 @@ const _privateGlobalInner = PublicInner();
 @ComplexConst(InsideGenerator.generator)
 @ComplexConst(identical)
 @ComplexConst(ForceSecondary.named(10))
+@ComplexConst(TestEnum.a)
 class TestCase {
 
 }
