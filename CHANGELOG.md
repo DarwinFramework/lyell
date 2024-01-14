@@ -15,6 +15,27 @@ Packages with breaking changes:
 
 Packages with other changes:
 
+ - [`lyell_gen` - `v1.2.4`](#lyell_gen---v124)
+
+---
+
+#### `lyell_gen` - `v1.2.4`
+
+ - **FIX**: fix support for enums, by using InterfaceElement instead of ClassElement.
+
+
+## 2024-01-14
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
  - [`lyell_gen` - `v1.2.3`](#lyell_gen---v123)
 
 ---

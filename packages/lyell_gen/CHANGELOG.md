@@ -1,3 +1,7 @@
+## 1.2.4
+
+ - **FIX**: fix support for enums, by using InterfaceElement instead of ClassElement.
+
 ## 1.2.3
 
  - **FIX**: support named constructors.
