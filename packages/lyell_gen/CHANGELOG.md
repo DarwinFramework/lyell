@@ -1,3 +1,7 @@
+## 1.2.3
+
+ - **FIX**: support named constructors.
+
 ## 1.2.2
 
  - **REFACTOR**: remove unused imports and fix alias naming.
