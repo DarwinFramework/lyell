@@ -272,6 +272,9 @@ abstract class TypeStringifier {
     var revived = reader.revive();
     var type = get(object.type!);
 
+    var accessor = revived.accessor;
+    if (accessor != "") accessor = ".$accessor";
+
     // Construct arguments
     StringBuffer args = StringBuffer();
     for (var element in revived.positionalArguments) {
@@ -290,7 +293,8 @@ abstract class TypeStringifier {
     if (builtArgs.endsWith(",")) {
       builtArgs = builtArgs.substring(0, builtArgs.length - 1);
     }
-    return "$type($builtArgs)";
+
+    return "$type$accessor($builtArgs)";
   }
 }
 
