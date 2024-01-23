@@ -1,3 +1,5 @@
+## 1.2.4+1
+
 ## 1.2.4
 
  - **FIX**: fix support for enums, by using InterfaceElement instead of ClassElement.

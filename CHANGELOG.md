@@ -3,6 +3,25 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## 2024-01-23
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
+ - [`lyell_gen` - `v1.2.4+1`](#lyell_gen---v1241)
+
+---
+
+#### `lyell_gen` - `v1.2.4+1`
+
+
 ## 2024-01-14
 
 ### Changes

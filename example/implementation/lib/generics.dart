@@ -1,0 +1,4 @@
+/// #@@Marker
+class GenericTestModel<A> {
+
+}
