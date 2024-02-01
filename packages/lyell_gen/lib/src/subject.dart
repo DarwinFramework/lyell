@@ -73,10 +73,17 @@ class SubjectCodeContext {
   final StringBuffer codeBuffer;
   bool noGenerate = false;
 
+  late final StringBuffer header;
   late AliasCounter incrementalCounter;
   late CachedAliasCounter cachedCounter;
 
   SubjectCodeContext(this.additionalImports, this.codeBuffer) {
+    header = StringBuffer("""
+// coverage:ignore-file
+// GENERATED CODE - DO NOT MODIFY BY HAND
+// ignore_for_file: type=lint
+// ignore_for_file: unused_element, unused_field, unused_import, public_member_api_docs, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target, unnecessary_question_mark
+""".trim());
     incrementalCounter = AliasCounter.withImports(additionalImports);
     cachedCounter = CachedAliasCounter.withImports(incrementalCounter, additionalImports);
   }
@@ -126,6 +133,7 @@ class _ServiceAdapterServiceBuilder<TAnnotation, TElement extends Element>
     var codeContext = SubjectCodeContext(additionalImports, passedCodeBuffer);
     await adapter.generateSubject(genContext, codeContext);
     var codeBuffer = StringBuffer();
+    codeBuffer.writeln(codeContext.header.toString());
     var importString = createImports(
       library: (adapter.copySourceImports ? genContext.library.element : null),
       id: (adapter.importSourceFile ? genContext.step.inputId : null),
@@ -185,7 +193,6 @@ abstract class SubjectReactorBuilder extends Builder {
     List<SubjectDescriptor> descriptors = [];
     StringBuffer codeBuffer = StringBuffer();
     var context = SubjectCodeContext(imports, codeBuffer);
-
     for (var value in descriptorIds) {
       var bindingString = await buildStep.readAsString(value);
       var binding = SubjectDescriptor.fromMap(jsonDecode(bindingString));
@@ -195,7 +202,7 @@ abstract class SubjectReactorBuilder extends Builder {
     }
 
     await buildReactor(descriptors, context);
-    var content = getImportString(null, null, imports) + codeBuffer.toString();
+    var content = context.header.toString() + getImportString(null, null, imports) + codeBuffer.toString();
     buildStep.writeAsString(
         AssetId(buildStep.inputId.package, "lib/$reactorFileName"),
         DartFormatter().format(content));

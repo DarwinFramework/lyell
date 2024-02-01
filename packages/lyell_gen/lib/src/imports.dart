@@ -201,7 +201,8 @@ String sqsLiteralEscape(String input) => input
     .replaceAll('\n', '\\n')  // Escape newlines
     .replaceAll('\r', '\\r')  // Escape carriage returns
     .replaceAll('\t', '\\t') // Escape tabs
-    .replaceAll('\$', '\\\$'); // Escape tabs
+    .replaceAll('\$', '\\\$')
+; // Escape tabs
 
 abstract class TypeStringifier {
   String get(DartType type, [AliasedPrefix? prefix]);

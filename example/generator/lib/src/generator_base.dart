@@ -36,6 +36,10 @@ class TestBuilder extends Builder {
         log.info("${clazz.name}.${element.name}: $serialized, $deserialized");
       }
 
+      if (clazz.typeParameters.isNotEmpty) {
+        codeBuffer.writeln("const \$${clazz.name}_gen = ${cachedCounter.get(clazz.thisType)};");
+      }
+
       // Example for using retained annotations
       var retained = getRetainedAnnotations(clazz, cachedCounter);
       codeBuffer.writeln("const \$${clazz.name}_annotations_array = ${retained.sourceArray};");

@@ -1,4 +1,0 @@
-/// #@@Marker
-class GenericTestModel<A> {
-
-}
