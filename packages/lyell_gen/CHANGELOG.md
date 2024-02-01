@@ -1,3 +1,7 @@
+## 1.3.0
+
+ - **FEAT**: add header for generated files.
+
 ## 1.2.4+1
 
 ## 1.2.4
