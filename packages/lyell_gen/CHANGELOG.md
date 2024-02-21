@@ -1,3 +1,7 @@
+## 1.3.1
+
+ - **FIX**: header colliding with code because of missing newlines.
+
 ## 1.3.0
 
  - **FEAT**: add header for generated files.
