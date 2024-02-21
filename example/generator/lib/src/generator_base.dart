@@ -15,6 +15,7 @@ class TestBuilder extends Builder {
     if (!await buildStep.resolver.isLibrary(buildStep.inputId)) return;
     var library = await buildStep.inputLibrary;
     var reader = LibraryReader(library);
+
     var asset = buildStep.inputId;
     var hasOutput = false;
     List<AliasImport> additionalImports = [];
