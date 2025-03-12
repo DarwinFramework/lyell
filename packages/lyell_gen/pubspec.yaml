@@ -15,10 +15,10 @@ dependencies:
   glob: '>=2.0.0 <3.0.0'
   path: '>=1.8.0 <2.0.0'
   code_builder: '>=4.3.0 <5.0.0'
-  dart_style: '>=2.2.4 <3.0.0'
+  dart_style: '>=3.0.0 <4.0.0'
   lyell: ^1.1.0
   mutex: ^3.1.0
   duffer: ^2.3.2
 dev_dependencies:
-  lints: ^3.0.0
-  test: ^1.25.1
+  lints: ^5.1.1
+  test: ^1.25.15

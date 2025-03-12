@@ -47,7 +47,8 @@ abstract class SubjectAdapter<TAnnotation, TElement extends Element> {
   FutureOr<void> generateSubject(
       SubjectGenContext<TElement> genContext, SubjectCodeContext codeContext);
 
-  FutureOr<SubjectDescriptor> generateDescriptor(SubjectGenContext<TElement> context);
+  FutureOr<SubjectDescriptor> generateDescriptor(
+      SubjectGenContext<TElement> context);
 }
 
 class SubjectGenContext<TElement extends Element> {
@@ -55,8 +56,9 @@ class SubjectGenContext<TElement extends Element> {
   final LibraryReader library;
   final List<TElement> matches;
   final BuildStep step;
-  
+
   TElement get first => matches.first;
+
   TElement? get firstOrNull => matches.firstOrNull;
 
   SubjectGenContext(this.adapter, this.library, this.matches, this.step);
@@ -85,7 +87,8 @@ class SubjectCodeContext {
 // ignore_for_file: unused_element, unused_field, unused_import, public_member_api_docs, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target, unnecessary_question_mark
 """);
     incrementalCounter = AliasCounter.withImports(additionalImports);
-    cachedCounter = CachedAliasCounter.withImports(incrementalCounter, additionalImports);
+    cachedCounter =
+        CachedAliasCounter.withImports(incrementalCounter, additionalImports);
   }
 }
 
@@ -135,16 +138,19 @@ class _ServiceAdapterServiceBuilder<TAnnotation, TElement extends Element>
     var codeBuffer = StringBuffer();
     codeBuffer.writeln(codeContext.header.toString());
     var importString = createImports(
-      library: (adapter.copySourceImports ? genContext.library.element : null),
-      id: (adapter.importSourceFile ? genContext.step.inputId : null),
-      imports: additionalImports
-    );
+        library:
+            (adapter.copySourceImports ? genContext.library.element : null),
+        id: (adapter.importSourceFile ? genContext.step.inputId : null),
+        imports: additionalImports);
     codeBuffer.writeln(importString);
     codeBuffer.writeln(passedCodeBuffer.toString());
     if (codeContext.noGenerate) return;
     await buildStep.writeAsString(
         buildStep.inputId.changeExtension(".${adapter.archetype}.g.dart"),
-        DartFormatter(pageWidth: 200).format(codeBuffer.toString()));
+        DartFormatter(
+          pageWidth: 200,
+          languageVersion: DartFormatter.latestLanguageVersion,
+        ).format(codeBuffer.toString()));
   }
 
   @override
@@ -202,10 +208,13 @@ abstract class SubjectReactorBuilder extends Builder {
     }
 
     await buildReactor(descriptors, context);
-    var content = "${context.header}\n${getImportString(null, null, imports)}\n$codeBuffer";
+    var content =
+        "${context.header}\n${getImportString(null, null, imports)}\n$codeBuffer";
     buildStep.writeAsString(
         AssetId(buildStep.inputId.package, "lib/$reactorFileName"),
-        DartFormatter().format(content));
+        DartFormatter(
+          languageVersion: DartFormatter.latestLanguageVersion,
+        ).format(content));
   }
 
   FutureOr<void> buildReactor(
