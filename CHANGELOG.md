@@ -11,6 +11,27 @@ See [Conventional Commits](https://conventionalcommits.org) for commit guideline
 
 Packages with breaking changes:
 
+ - [`lyell_gen` - `v3.0.0`](#lyell_gen---v300)
+
+Packages with other changes:
+
+ - There are no other changes in this release.
+
+---
+
+#### `lyell_gen` - `v3.0.0`
+
+ - **BREAKING** **REFACTOR**: actually update to the newest analyzer version, I should have done that a long time ago.
+
+
+## 2025-03-12
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
  - [`lyell_gen` - `v2.0.0`](#lyell_gen---v200)
 
 Packages with other changes:

@@ -1,3 +1,9 @@
+## 3.0.0
+
+> Note: This release has breaking changes.
+
+ - **BREAKING** **REFACTOR**: actually update to the newest analyzer version, I should have done that a long time ago.
+
 ## 2.0.0
 
 > Note: This release has breaking changes.
