@@ -48,15 +48,15 @@ Future tryInitialize(BuildStep step) async {
     lyellLibraryReader = LibraryReader(lyellLibrary);
 
     iterableInterface =
-    coreLibraryReader.findType("Iterable") as InterfaceElement;
+        coreLibraryReader.findType("Iterable") as InterfaceElement;
     listInterface = coreLibraryReader.findType("List") as InterfaceElement;
     setInterface = coreLibraryReader.findType("Set") as InterfaceElement;
     streamInterface = asyncLibraryReader.findType("Stream") as InterfaceElement;
     futureInterface = asyncLibraryReader.findType("Future") as InterfaceElement;
     futureOrInterface =
-    asyncLibraryReader.findType("FutureOr") as InterfaceElement;
+        asyncLibraryReader.findType("FutureOr") as InterfaceElement;
     cascadeTypeInterface =
-    lyellLibraryReader.findType("CascadeItemType") as InterfaceElement;
+        lyellLibraryReader.findType("CascadeItemType") as InterfaceElement;
     futureOrChecker = TypeChecker.fromStatic(futureOrInterface.thisType);
   } finally {
     _initLock.release();
@@ -68,7 +68,9 @@ Future<DartType> getItemType(DartType type, BuildStep step) async {
   await tryInitialize(step);
 
   // Check special cases
-  if (type.isDynamic || type.isDartCoreObject || type.isVoid) return type;
+  if (type is DynamicType || type.isDartCoreObject || type is VoidType) {
+    return type;
+  }
 
   // Handle Primitives
   if (type.isDartCoreString ||

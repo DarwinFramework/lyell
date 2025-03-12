@@ -57,7 +57,6 @@ String getWidestImport(DartType type) {
   return getImport(type)!;
 }
 
-
 /// Utility for creating a non partial augmentation class for the give asset [id]
 /// with the [library]. The [additional] imports are also added to the the import
 /// string.
@@ -67,7 +66,7 @@ String getImportString(LibraryElement? library, AssetId? id,
   importValues.addAll(additional);
   if (id != null) importValues.add(AliasImport.root(id.uri.toString()));
   if (library != null) {
-    for (var element in library.libraryImports) {
+    for (var element in library.definingCompilationUnit.libraryImports) {
       importValues.add(AliasImport(element.importedLibrary!.identifier,
           element.prefix?.element.displayName));
     }
@@ -86,7 +85,7 @@ String createImports(
   if (imports != null) importValues.addAll(imports);
   if (id != null) importValues.add(AliasImport.root(id.uri.toString()));
   if (library != null) {
-    for (var element in library.libraryImports) {
+    for (var element in library.definingCompilationUnit.libraryImports) {
       importValues.add(AliasImport(element.importedLibrary!.identifier,
           element.prefix?.element.displayName));
     }
@@ -198,17 +197,15 @@ class CachedAliasCounter extends TypeStringifier {
 String sqsLiteralEscape(String input) => input
     .replaceAll('\\', '\\\\') // Escape backslashes
     .replaceAll('\'', '\\\'') // Escape single quotes
-    .replaceAll('\n', '\\n')  // Escape newlines
-    .replaceAll('\r', '\\r')  // Escape carriage returns
+    .replaceAll('\n', '\\n') // Escape newlines
+    .replaceAll('\r', '\\r') // Escape carriage returns
     .replaceAll('\t', '\\t') // Escape tabs
-    .replaceAll('\$', '\\\$')
-; // Escape tabs
+    .replaceAll('\$', '\\\$'); // Escape tabs
 
 abstract class TypeStringifier {
   String get(DartType type, [AliasedPrefix? prefix]);
 
   String getLibraryAlias(LibraryElement element);
-
 
   /// Converts a compile-time evaluated [DartObject] to an aliased source
   /// representation where all types are incrementally aliased using this
@@ -232,11 +229,12 @@ abstract class TypeStringifier {
         if (variable is TopLevelVariableElement) {
           return "${getLibraryAlias(variable.library)}.${variable.name}";
         } else if (variable is FieldElement) {
-          var interfaceElement = variable.enclosingElement as InterfaceElement;
+          var interfaceElement = variable.enclosingElement3 as InterfaceElement;
           return "${get(interfaceElement.thisType)}.${variable.name}";
         }
       } else {
-        log.warning("Consider using a public variable instead of the private const variable ${variable.name}.");
+        log.warning(
+            "Consider using a public variable instead of the private const variable ${variable.name}.");
       }
     }
 
@@ -255,17 +253,19 @@ abstract class TypeStringifier {
     if (object.type is analyzer_type.FunctionType) {
       var function = object.toFunctionValue()!;
       if (function is FunctionElement) {
-        var enclosingElement = function.enclosingElement;
+        var enclosingElement = function.enclosingElement3;
         if (enclosingElement is CompilationUnitElement) {
           return "${getLibraryAlias(enclosingElement.library)}.${function.name}";
         } else {
-          log.severe("Unexpected enclosing element of type ${enclosingElement.runtimeType}. Expected CompilationUnitElement");
+          log.severe(
+              "Unexpected enclosing element of type ${enclosingElement.runtimeType}. Expected CompilationUnitElement");
         }
       } else if (function is MethodElement) {
-        var classElement = function.enclosingElement as ClassElement;
+        var classElement = function.enclosingElement3 as ClassElement;
         return "${get(classElement.thisType)}.${function.name}";
       } else {
-        log.severe("Unexpected function element of type ${function.runtimeType}. Expected FunctionElement or MethodElement");
+        log.severe(
+            "Unexpected function element of type ${function.runtimeType}. Expected FunctionElement or MethodElement");
       }
     }
 

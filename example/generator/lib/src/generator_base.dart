@@ -51,7 +51,9 @@ class TestBuilder extends Builder {
 
     if (!hasOutput) return;
     var imports = createImports(imports: additionalImports);
-    var formatted = DartFormatter().format(imports + codeBuffer.toString());
+    var formatted = DartFormatter(
+      languageVersion: DartFormatter.latestLanguageVersion
+    ).format(imports + codeBuffer.toString());
     await buildStep.writeAsString(asset.changeExtension(".test.g.dart"), formatted);
   }
 

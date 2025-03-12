@@ -8,15 +8,14 @@ environment:
 
 dependencies:
   build: '>=2.0.0 <3.0.0'
-  analyzer: ">=2.0.0 <6.0.0"
+  analyzer: ">=7.0.0 <8.0.0"
   source_gen: '>=1.0.0 <=2.0.0'
   collection: '>=1.15.0 <2.0.0'
   crypto: '>=3.0.0 <4.0.0'
   glob: '>=2.0.0 <3.0.0'
   path: '>=1.8.0 <2.0.0'
-
   code_builder: '>=4.3.0 <5.0.0'
-  dart_style: '>=2.2.4 <3.0.0'
+  dart_style: '>=3.0.0 <4.0.0'
 
   lyell: any
   lyell_gen: any

@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:ffi';
 
 import 'package:analyzer/dart/element/element.dart';
 import 'package:analyzer/dart/element/nullability_suffix.dart';
@@ -78,7 +79,7 @@ Future<LibraryElement> getLibrary(String import, BuildStep step) async {
 /// using [libraryProxies].
 String? getImport(DartType type) {
   // Handle special primitives that can't be directly resolved.
-  if (type.isVoid || type.isDynamic) return null;
+  if (type is VoidType || type is DynamicType) return null;
 
   // Check if library is being proxied.
   for (var element in libraryProxies) {
