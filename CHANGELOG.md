@@ -3,6 +3,56 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## 2025-03-12
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - [`lyell_gen` - `v2.0.0`](#lyell_gen---v200)
+
+Packages with other changes:
+
+ - [`lyell` - `v1.2.0`](#lyell---v120)
+
+---
+
+#### `lyell_gen` - `v2.0.0`
+
+ - **REFACTOR**: remove unused imports and fix alias naming.
+ - **REFACTOR**: update CachedAliasCounter and fixed get(void).
+ - **REFACTOR**: add clarifying brackets.
+ - **REFACTOR**: reformat code.
+ - **FIX**: header colliding with code because of missing newlines.
+ - **FIX**: fix support for enums, by using InterfaceElement instead of ClassElement.
+ - **FIX**: support named constructors.
+ - **FIX**: edge-cases where top level functions aren't resolved correctly.
+ - **FIX**: handle strings with content that requires escapes.
+ - **FIX**: remove UnsupportedError for now implemented feature.
+ - **FIX**: use the right element library.
+ - **FIX**: improve const getter based annotation handling in toSource().
+ - **FIX**: descriptor uri now points towards the generated file, not the source file.
+ - **FIX**: add missing return clauses.
+ - **FEAT**: add header for generated files.
+ - **FEAT**: handle functions in toSource.
+ - **FEAT**: handle variable references in toSource.
+ - **FEAT**: add getLibraryAlias.
+ - **FEAT**: add and use qualified trees.
+ - **FEAT**: add TypeTrees.
+ - **FEAT**: improve alias capabilities.
+ - **BREAKING** **REFACTOR**: fix naming, add qol features.
+ - **BREAKING** **FEAT**: add library proxies for extensible imports, add locks to tryInitialize, add serialize.
+
+#### `lyell` - `v1.2.0`
+
+ - **FEAT**: add and use qualified trees.
+ - **FEAT**: add TypeTrees.
+ - **FEAT**: add collection casts.
+ - **FEAT**: improve alias capabilities.
+
+
 ## 2024-02-21
 
 ### Changes

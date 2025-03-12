@@ -1,3 +1,10 @@
+## 1.2.0
+
+ - **FEAT**: add and use qualified trees.
+ - **FEAT**: add TypeTrees.
+ - **FEAT**: add collection casts.
+ - **FEAT**: improve alias capabilities.
+
 ## 1.1.0
 
  - **FEAT**: add and use qualified trees.

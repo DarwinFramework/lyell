@@ -1,3 +1,31 @@
+## 2.0.0
+
+> Note: This release has breaking changes.
+
+ - **REFACTOR**: remove unused imports and fix alias naming.
+ - **REFACTOR**: update CachedAliasCounter and fixed get(void).
+ - **REFACTOR**: add clarifying brackets.
+ - **REFACTOR**: reformat code.
+ - **FIX**: header colliding with code because of missing newlines.
+ - **FIX**: fix support for enums, by using InterfaceElement instead of ClassElement.
+ - **FIX**: support named constructors.
+ - **FIX**: edge-cases where top level functions aren't resolved correctly.
+ - **FIX**: handle strings with content that requires escapes.
+ - **FIX**: remove UnsupportedError for now implemented feature.
+ - **FIX**: use the right element library.
+ - **FIX**: improve const getter based annotation handling in toSource().
+ - **FIX**: descriptor uri now points towards the generated file, not the source file.
+ - **FIX**: add missing return clauses.
+ - **FEAT**: add header for generated files.
+ - **FEAT**: handle functions in toSource.
+ - **FEAT**: handle variable references in toSource.
+ - **FEAT**: add getLibraryAlias.
+ - **FEAT**: add and use qualified trees.
+ - **FEAT**: add TypeTrees.
+ - **FEAT**: improve alias capabilities.
+ - **BREAKING** **REFACTOR**: fix naming, add qol features.
+ - **BREAKING** **FEAT**: add library proxies for extensible imports, add locks to tryInitialize, add serialize.
+
 ## 1.3.1
 
  - **FIX**: header colliding with code because of missing newlines.
