@@ -1,3 +1,7 @@
+## 1.3.2
+
+ - **FIX**: I forgot to add the arguments as a constructor parameter.
+
 ## 1.3.1
 
  - **FIX**: implement type tree for unsafe runtime type capture for easy usage.

@@ -15,6 +15,34 @@ Packages with breaking changes:
 
 Packages with other changes:
 
+ - [`lyell` - `v1.3.2`](#lyell---v132)
+ - [`lyell_gen` - `v3.0.3`](#lyell_gen---v303)
+
+Packages with dependency updates only:
+
+> Packages listed below depend on other packages in this workspace that have had changes. Their versions have been incremented to bump the minimum dependency versions of the packages they depend upon in this project.
+
+ - `lyell_gen` - `v3.0.3`
+
+---
+
+#### `lyell` - `v1.3.2`
+
+ - **FIX**: I forgot to add the arguments as a constructor parameter.
+
+
+## 2025-03-18
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
  - [`lyell` - `v1.3.1`](#lyell---v131)
  - [`lyell_gen` - `v3.0.2`](#lyell_gen---v302)
 
