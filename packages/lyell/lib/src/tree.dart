@@ -1,8 +1,6 @@
-import 'dart:async';
-import 'dart:collection';
-
 import 'package:collection/collection.dart';
 import 'package:lyell/src/container.dart';
+import 'package:lyell/src/qualified_tree.dart';
 
 import 'lyell_base.dart';
 
@@ -44,20 +42,20 @@ abstract interface class TypeTree<BASE> {
     return $toString(this);
   }
 
-  static TypeTree terminal<T>() => TypeTree0<T>();
-  static TypeTree arg0<T>() => TypeTree0<T>();
+  static TypeTree terminal<T>() => QualifiedTerminal<T>();
+  static TypeTree arg0<T>() => QualifiedTerminal<T>();
   static TypeTree arg1<BASE,A>() => TypeTree1<BASE,A>();
   static TypeTree arg2<BASE,A,B>() => TypeTree2<BASE,A,B>();
   static TypeTree arg3<BASE,A,B,C>() => TypeTree3<BASE,A,B,C>();
   static TypeTree argN<BASE>(List<TypeTree> arguments) => TypeTreeN<BASE>(arguments);
 
-  static TypeTree future<T>() => TypeTreeN<Future>([terminal<T>()]);
-  static TypeTree futureOr<T>() => TypeTreeN<FutureOr>([terminal<T>()]);
-  static TypeTree stream<T>() => TypeTreeN<Stream>([terminal<T>()]);
-  static TypeTree list<T>() => TypeTreeN<List>([terminal<T>()]);
-  static TypeTree set<T>() => TypeTreeN<Set>([terminal<T>()]);
-  static TypeTree iterable<T>() => TypeTreeN<Iterable>([terminal<T>()]);
-  static TypeTree map<K,V>() => TypeTreeN<Map>([terminal<K>(), terminal<V>()]);
+  static TypeTree future<T>() => QualifiedTypeTree.future<T>();
+  static TypeTree futureOr<T>() => QualifiedTypeTree.futureOr<T>();
+  static TypeTree stream<T>() => QualifiedTypeTree.stream<T>();
+  static TypeTree list<T>() => QualifiedTypeTree.list<T>();
+  static TypeTree set<T>() => QualifiedTypeTree.set<T>();
+  static TypeTree iterable<T>() => QualifiedTypeTree.iterable<T>();
+  static TypeTree map<K,V>() => QualifiedTypeTree.map<K,V>();
 
   static String $toString(TypeTree tree) {
     if (tree.arguments.isEmpty) {
