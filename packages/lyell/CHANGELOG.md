@@ -1,3 +1,9 @@
+## 1.3.0
+
+ - **FEAT**: add UnsafeRuntimeTypeCapture for limited runtime type support.
+ - **FEAT**: add additional extensions for handling not qualified type trees.
+ - **FEAT**: terminal and primitive type tree factory methods return qualified type tress now.
+
 ## 1.2.0
 
  - **FEAT**: add and use qualified trees.

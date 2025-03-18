@@ -3,6 +3,36 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## 2025-03-18
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
+ - [`lyell` - `v1.3.0`](#lyell---v130)
+ - [`lyell_gen` - `v3.0.1`](#lyell_gen---v301)
+
+Packages with dependency updates only:
+
+> Packages listed below depend on other packages in this workspace that have had changes. Their versions have been incremented to bump the minimum dependency versions of the packages they depend upon in this project.
+
+ - `lyell_gen` - `v3.0.1`
+
+---
+
+#### `lyell` - `v1.3.0`
+
+ - **FEAT**: add UnsafeRuntimeTypeCapture for limited runtime type support.
+ - **FEAT**: add additional extensions for handling not qualified type trees.
+ - **FEAT**: terminal and primitive type tree factory methods return qualified type tress now.
+
+
 ## 2025-03-12
 
 ### Changes
