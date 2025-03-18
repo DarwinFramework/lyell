@@ -26,6 +26,7 @@ abstract class TypeCapture<T> {
 
 /// Mixin for adding the [TypeCapture] interface to classes.
 mixin TypeCaptureMixin<T> implements TypeCapture<T> {
+
   @override
   TypeCapture get nullable => TypeToken<T?>();
   @override

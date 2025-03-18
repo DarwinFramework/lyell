@@ -22,6 +22,14 @@ abstract base class QualifiedTypeTree<T,B> with TypeCaptureMixin<T> implements T
   static QualifiedTypeTree iterable<T>() => QualifiedTypeTreeN<Iterable<T>, Iterable>([terminal<T>()]);
   static QualifiedTypeTree map<K,V>() => QualifiedTypeTreeN<Map<K,V>, Map>([terminal<K>(), terminal<V>()]);
 
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      other is QualifiedTypeTree && runtimeType == other.runtimeType
+       && qualified.typeArgument == other.qualified.typeArgument;
+
+  @override
+  int get hashCode => qualified.typeArgument.hashCode;
 }
 
 final class DelegateQualifiedTypeTree<T,B> extends QualifiedTypeTree<T,B> {
@@ -64,5 +72,7 @@ extension QualifiedExtension on TypeTree {
 
   bool get isQualified => this is QualifiedTypeTree;
   TypeCapture get qualified => (this as QualifiedTypeTree).qualified;
+  TypeCapture get qualifiedOrBase => this is QualifiedTypeTree ? (this as QualifiedTypeTree).qualified : base;
+  TypeCapture get qualifiedOrDynamic => this is QualifiedTypeTree ? (this as QualifiedTypeTree).qualified : const TypeToken<dynamic>();
 
 }
