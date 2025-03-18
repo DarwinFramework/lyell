@@ -1,3 +1,7 @@
+## 1.3.1
+
+ - **FIX**: implement type tree for unsafe runtime type capture for easy usage.
+
 ## 1.3.0
 
  - **FEAT**: add UnsafeRuntimeTypeCapture for limited runtime type support.
