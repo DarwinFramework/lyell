@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:collection/collection.dart';
+import 'package:lyell/lyell.dart';
 
 /// Abstract base class for using a generic type capture.
 abstract class TypeCapture<T> {
@@ -26,7 +27,7 @@ abstract class TypeCapture<T> {
 
 /// Unsafe type capture that only provides the passed in type and otherwise
 /// behaves like a dynamic type capture.
-class UnsafeRuntimeTypeCapture extends TypeCapture<dynamic> {
+class UnsafeRuntimeTypeCapture extends TypeCapture<dynamic> implements TypeTree<dynamic> {
 
   final Type type;
   const UnsafeRuntimeTypeCapture(this.type);
@@ -51,6 +52,12 @@ class UnsafeRuntimeTypeCapture extends TypeCapture<dynamic> {
 
   @override
   Set castSet(Set set) => set;
+
+  @override
+  List<TypeTree> get arguments => [];
+
+  @override
+  TypeCapture get base => this;
 }
 
 /// Mixin for adding the [TypeCapture] interface to classes.
