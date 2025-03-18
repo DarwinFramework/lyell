@@ -30,7 +30,11 @@ abstract class TypeCapture<T> {
 class UnsafeRuntimeTypeCapture extends TypeCapture<dynamic> implements TypeTree<dynamic> {
 
   final Type type;
-  const UnsafeRuntimeTypeCapture(this.type);
+
+  @override
+  final List<TypeTree> arguments;
+
+  const UnsafeRuntimeTypeCapture(this.type, {this.arguments = const []});
 
   @override
   TypeCapture get nullable => TypeToken<dynamic>();
@@ -52,9 +56,6 @@ class UnsafeRuntimeTypeCapture extends TypeCapture<dynamic> implements TypeTree<
 
   @override
   Set castSet(Set set) => set;
-
-  @override
-  List<TypeTree> get arguments => [];
 
   @override
   TypeCapture get base => this;
