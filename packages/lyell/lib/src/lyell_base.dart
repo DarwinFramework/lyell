@@ -24,6 +24,35 @@ abstract class TypeCapture<T> {
   RETURN consumeTypeArg<RETURN,ARG>(RETURN Function<_>(ARG) func, ARG arg) => func<T>(arg);
 }
 
+/// Unsafe type capture that only provides the passed in type and otherwise
+/// behaves like a dynamic type capture.
+class UnsafeRuntimeTypeCapture extends TypeCapture<dynamic> {
+
+  final Type type;
+  const UnsafeRuntimeTypeCapture(this.type);
+
+  @override
+  TypeCapture get nullable => TypeToken<dynamic>();
+
+  @override
+  bool get isNullable => false;
+
+  @override
+  Type get typeArgument => type;
+
+  @override
+  bool isAssignable(dynamic object) => object.runtimeType == type;
+
+   @override
+  Iterable castIterable(Iterable iterable) => iterable;
+
+  @override
+  List castList(List list) => list;
+
+  @override
+  Set castSet(Set set) => set;
+}
+
 /// Mixin for adding the [TypeCapture] interface to classes.
 mixin TypeCaptureMixin<T> implements TypeCapture<T> {
 
