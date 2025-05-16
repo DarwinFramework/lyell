@@ -41,8 +41,7 @@ abstract class TypeCapture<T> {
 
 /// Unsafe type capture that only provides the passed in type and otherwise
 /// behaves like a dynamic type capture.
-class UnsafeRuntimeTypeCapture extends TypeCapture<dynamic>
-    implements TypeTree<dynamic> {
+final class UnsafeRuntimeTypeCapture extends QualifiedTypeTree<dynamic,dynamic>{
   final Type type;
 
   @override
@@ -73,6 +72,24 @@ class UnsafeRuntimeTypeCapture extends TypeCapture<dynamic>
 
   @override
   TypeCapture get base => this;
+
+  @override
+  bool operator ==(Object other) {
+    if (identical(this, other)) return true;
+    if (other is TypeCapture) {
+      if (other.typeArgument == type && arguments.isEmpty) return true;
+    } else if (other is TypeTree) {
+      if (other.isSynthetic) return false;
+      if (other.base.typeArgument == type &&
+          const ListEquality().equals(arguments, other.arguments)) {
+        return true;
+      }
+    }
+    return false;
+  }
+
+  @override
+  int get hashCode => TypeTree.$hashCode(this);
 }
 
 final class SyntheticTypeCapture extends QualifiedTypeTree<dynamic, dynamic> {

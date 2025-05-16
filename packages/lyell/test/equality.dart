@@ -10,6 +10,8 @@ class $B {}
 void main() {
   test("TypeToken Equality", () {
     expect(TypeToken<$A>(), TypeToken<$A>());
+    expect(TypeToken<$A>(), bidiEquals(UnsafeRuntimeTypeCapture($A)));
+    expect(TypeToken<$A>(), bidiNotEquals(UnsafeRuntimeTypeCapture($B)));
     expect(TypeToken<List<$A>>(), TypeToken<List<$A>>());
   });
 
@@ -23,6 +25,11 @@ void main() {
     expect(TypeTree.$string, bidiEquals(QualifiedTerminal<String>()));
     expect(TypeTree.terminal<String>(), bidiEquals(QualifiedTerminal<String>()));
     expect(TypeToken<String>(), bidiEquals(QualifiedTerminal<String>()));
+    expect(TypeToken<String>(), bidiEquals(TypeTree0<String>()));
+    expect(TypeTree0<$A>(), bidiEquals(UnsafeRuntimeTypeCapture($A)));
+    expect(QualifiedTerminal<$A>(), bidiEquals(UnsafeRuntimeTypeCapture($A)));
+    expect(TypeTree0<$A>(), bidiNotEquals(UnsafeRuntimeTypeCapture($B)));
+    expect(QualifiedTerminal<$A>(), bidiNotEquals(UnsafeRuntimeTypeCapture($B)));
   });
 
   test("TypeTreeInequality", () {
@@ -42,9 +49,26 @@ void main() {
     expect(SyntheticTypeCapture("Cont", arguments: [TypeTree.$string]), bidiNotEquals(SyntheticTypeCapture("Cont", arguments: [TypeTree.$double])));
     expect(SyntheticTypeCapture("Cont", arguments: [TypeTree.$string]), bidiNotEquals(SyntheticTypeCapture("Cont")));
     expect(SyntheticTypeCapture("Cont", arguments: [TypeTree.$string]), bidiEquals(SyntheticTypeCapture("Cont", arguments: [QualifiedTerminal<String>()])));
+    expect(SyntheticTypeCapture("Cont", arguments: [TypeTree.$string]), bidiEquals(SyntheticTypeCapture("Cont", arguments: [UnsafeRuntimeTypeCapture(String)])));
 
     expect(SyntheticTypeCapture("A").base, isA<SyntheticTypeCapture>());
     expect(SyntheticTypeCapture("A").qualified, isA<SyntheticTypeCapture>());
+    expect(UnsafeRuntimeTypeCapture($A).base, isA<UnsafeRuntimeTypeCapture>());
+    expect(UnsafeRuntimeTypeCapture($A).qualified, isA<UnsafeRuntimeTypeCapture>());
+  });
+
+  test("Map Access", () {
+    final map = <TypeCapture, int>{
+      TypeToken<$A>(): 1,
+      TypeToken<$B>(): 2,
+    };
+
+    expect(map[TypeToken<$A>()], 1);
+    expect(map[TypeToken<$B>()], 2);
+    expect(map[TypeTree0<$A>()], 1);
+    expect(map[QualifiedTerminal<$A>()], 1);
+    expect(map[UnsafeRuntimeTypeCapture($A)], 1);
+    expect(map[UnsafeRuntimeTypeCapture($B)], 2);
   });
 
 

@@ -41,6 +41,8 @@ abstract class TypeTree<BASE> {
       if (other.isSynthetic) return false;
       return other.base.typeArgument == base.typeArgument &&
         const ListEquality().equals(arguments, other.arguments);
+    } else  if (other is TypeCapture) {
+      return other.typeArgument == base.typeArgument && arguments.isEmpty;
     }
     return false;
   }
