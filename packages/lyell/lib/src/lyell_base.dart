@@ -71,7 +71,7 @@ final class UnsafeRuntimeTypeCapture extends QualifiedTypeTree<dynamic,dynamic>{
   Set castSet(Set set) => set;
 
   @override
-  TypeCapture get base => this;
+  TypeCapture get base => UnsafeRuntimeTypeCapture(type);
 
   @override
   bool operator ==(Object other) {
@@ -90,6 +90,11 @@ final class UnsafeRuntimeTypeCapture extends QualifiedTypeTree<dynamic,dynamic>{
 
   @override
   int get hashCode => TypeTree.$hashCode(this);
+
+  @override
+  String toString() {
+    return "!${TypeTree.$toString(this)}";
+  }
 }
 
 final class SyntheticTypeCapture extends QualifiedTypeTree<dynamic, dynamic> {
@@ -103,7 +108,7 @@ final class SyntheticTypeCapture extends QualifiedTypeTree<dynamic, dynamic> {
   });
 
   @override
-  TypeCapture get base => this;
+  TypeCapture get base => SyntheticTypeCapture(identity);
 
   @override
   bool operator ==(Object other) {

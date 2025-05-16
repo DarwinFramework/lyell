@@ -30,6 +30,9 @@ void main() {
     expect(QualifiedTerminal<$A>(), bidiEquals(UnsafeRuntimeTypeCapture($A)));
     expect(TypeTree0<$A>(), bidiNotEquals(UnsafeRuntimeTypeCapture($B)));
     expect(QualifiedTerminal<$A>(), bidiNotEquals(UnsafeRuntimeTypeCapture($B)));
+
+    expect(QualifiedTypeTree.map<String,double>().base, bidiEquals(TypeToken<Map>()));
+    expect(QualifiedTypeTree.map<String,double>().base, bidiEquals(UnsafeRuntimeTypeCapture(Map)));
   });
 
   test("TypeTreeInequality", () {
@@ -68,6 +71,7 @@ void main() {
     expect(map[TypeTree0<$A>()], 1);
     expect(map[QualifiedTerminal<$A>()], 1);
     expect(map[UnsafeRuntimeTypeCapture($A)], 1);
+    expect(map[UnsafeRuntimeTypeCapture($A).base], 1);
     expect(map[UnsafeRuntimeTypeCapture($B)], 2);
   });
 
