@@ -1,3 +1,7 @@
+## 1.4.2
+
+ - **FIX**: hashing for unsafe runtime type capture and proper equality checks.
+
 ## 1.4.1
 
  - **FIX**: Synthetic Type Capture didn't return itself as base.

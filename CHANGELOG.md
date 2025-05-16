@@ -15,6 +15,34 @@ Packages with breaking changes:
 
 Packages with other changes:
 
+ - [`lyell` - `v1.4.2`](#lyell---v142)
+ - [`lyell_gen` - `v3.0.6`](#lyell_gen---v306)
+
+Packages with dependency updates only:
+
+> Packages listed below depend on other packages in this workspace that have had changes. Their versions have been incremented to bump the minimum dependency versions of the packages they depend upon in this project.
+
+ - `lyell_gen` - `v3.0.6`
+
+---
+
+#### `lyell` - `v1.4.2`
+
+ - **FIX**: hashing for unsafe runtime type capture and proper equality checks.
+
+
+## 2025-05-16
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
  - [`lyell` - `v1.4.1`](#lyell---v141)
  - [`lyell_gen` - `v3.0.5`](#lyell_gen---v305)
 
