@@ -17,7 +17,7 @@ class TokenTypeTrees {
 }
 
 
-abstract interface class TypeTree<BASE> {
+abstract class TypeTree<BASE> {
 
   static const TypeTree object = TypeTree0<Object>();
   static const TypeTree $string = TypeTree0<String>();
@@ -34,12 +34,20 @@ abstract interface class TypeTree<BASE> {
   int get hashCode => $hashCode(this);
 
   @override
-  bool operator ==(Object other) => identical(this, other) || super == other ||
-      (other is TypeTree && other.base.typeArgument == base.typeArgument && const ListEquality().equals(arguments, other.arguments));
+  bool operator ==(Object other) {
+    if (identical(this, other)) return true;
+
+    if (other is TypeTree) {
+      if (other.isSynthetic) return false;
+      return other.base.typeArgument == base.typeArgument &&
+        const ListEquality().equals(arguments, other.arguments);
+    }
+    return false;
+  }
 
   @override
   String toString() {
-    return $toString(this);
+    return "~${$toString(this)}";
   }
 
   static TypeTree terminal<T>() => QualifiedTerminal<T>();
@@ -62,7 +70,7 @@ abstract interface class TypeTree<BASE> {
       return "${tree.base.typeArgument}";
     } else {
       var diamondlessBaseName = tree.base.typeArgument.toString().split("<").first;
-      return "$diamondlessBaseName<${tree.arguments.map((e) => $toString(e)).join(", ")}>";
+      return "$diamondlessBaseName<${tree.arguments.map((e) => e.toString()).join(", ")}>";
     }
   }
 
