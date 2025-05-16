@@ -1,3 +1,7 @@
+## 1.4.3
+
+ - **FIX**: naming for unsafe runtime types now works properly, and base getters return clones without arguments for both unsafe runtime captures and synthetic types.
+
 ## 1.4.2
 
  - **FIX**: hashing for unsafe runtime type capture and proper equality checks.

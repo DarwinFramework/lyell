@@ -15,6 +15,34 @@ Packages with breaking changes:
 
 Packages with other changes:
 
+ - [`lyell` - `v1.4.3`](#lyell---v143)
+ - [`lyell_gen` - `v3.0.7`](#lyell_gen---v307)
+
+Packages with dependency updates only:
+
+> Packages listed below depend on other packages in this workspace that have had changes. Their versions have been incremented to bump the minimum dependency versions of the packages they depend upon in this project.
+
+ - `lyell_gen` - `v3.0.7`
+
+---
+
+#### `lyell` - `v1.4.3`
+
+ - **FIX**: naming for unsafe runtime types now works properly, and base getters return clones without arguments for both unsafe runtime captures and synthetic types.
+
+
+## 2025-05-16
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
  - [`lyell` - `v1.4.2`](#lyell---v142)
  - [`lyell_gen` - `v3.0.6`](#lyell_gen---v306)
 
