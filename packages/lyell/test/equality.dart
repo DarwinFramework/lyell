@@ -42,7 +42,11 @@ void main() {
     expect(SyntheticTypeCapture("Cont", arguments: [TypeTree.$string]), bidiNotEquals(SyntheticTypeCapture("Cont", arguments: [TypeTree.$double])));
     expect(SyntheticTypeCapture("Cont", arguments: [TypeTree.$string]), bidiNotEquals(SyntheticTypeCapture("Cont")));
     expect(SyntheticTypeCapture("Cont", arguments: [TypeTree.$string]), bidiEquals(SyntheticTypeCapture("Cont", arguments: [QualifiedTerminal<String>()])));
+
+    expect(SyntheticTypeCapture("A").base, isA<SyntheticTypeCapture>());
+    expect(SyntheticTypeCapture("A").qualified, isA<SyntheticTypeCapture>());
   });
+
 
   // print(SyntheticTypeCapture("Cont", arguments: [TypeTree.$string]));
   // print(QualifiedTypeTree.list<String>());

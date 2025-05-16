@@ -86,7 +86,7 @@ final class SyntheticTypeCapture extends QualifiedTypeTree<dynamic, dynamic> {
   });
 
   @override
-  TypeCapture get base => TypeToken<dynamic>();
+  TypeCapture get base => this;
 
   @override
   bool operator ==(Object other) {
