@@ -33,6 +33,10 @@ void main() {
 
     expect(QualifiedTypeTree.map<String,double>().base, bidiEquals(TypeToken<Map>()));
     expect(QualifiedTypeTree.map<String,double>().base, bidiEquals(UnsafeRuntimeTypeCapture(Map)));
+    expect(UnsafeRuntimeTypeCapture(Map, arguments: [
+      UnsafeRuntimeTypeCapture(String),
+      UnsafeRuntimeTypeCapture(double)
+    ]).base, bidiEquals(UnsafeRuntimeTypeCapture(Map)));
   });
 
   test("TypeTreeInequality", () {
@@ -55,9 +59,7 @@ void main() {
     expect(SyntheticTypeCapture("Cont", arguments: [TypeTree.$string]), bidiEquals(SyntheticTypeCapture("Cont", arguments: [UnsafeRuntimeTypeCapture(String)])));
 
     expect(SyntheticTypeCapture("A").base, isA<SyntheticTypeCapture>());
-    expect(SyntheticTypeCapture("A").qualified, isA<SyntheticTypeCapture>());
     expect(UnsafeRuntimeTypeCapture($A).base, isA<UnsafeRuntimeTypeCapture>());
-    expect(UnsafeRuntimeTypeCapture($A).qualified, isA<UnsafeRuntimeTypeCapture>());
   });
 
   test("Map Access", () {

@@ -41,7 +41,7 @@ abstract class TypeCapture<T> {
 
 /// Unsafe type capture that only provides the passed in type and otherwise
 /// behaves like a dynamic type capture.
-final class UnsafeRuntimeTypeCapture extends QualifiedTypeTree<dynamic,dynamic>{
+final class UnsafeRuntimeTypeCapture extends TypeTree<dynamic> with TypeCaptureMixin<dynamic> {
   final Type type;
 
   @override
@@ -97,7 +97,7 @@ final class UnsafeRuntimeTypeCapture extends QualifiedTypeTree<dynamic,dynamic>{
   }
 }
 
-final class SyntheticTypeCapture extends QualifiedTypeTree<dynamic, dynamic> {
+final class SyntheticTypeCapture extends TypeTree<dynamic> with TypeCaptureMixin<dynamic> {
   final String identity;
   @override
   final List<TypeTree> arguments;
