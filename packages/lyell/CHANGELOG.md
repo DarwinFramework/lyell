@@ -1,3 +1,7 @@
+## 1.4.1
+
+ - **FIX**: Synthetic Type Capture didn't return itself as base.
+
 ## 1.4.0
 
  - **REFACTOR**: enhance QualifiedTypeTree implementation and improve equality checks.
