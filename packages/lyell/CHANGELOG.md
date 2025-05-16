@@ -1,3 +1,8 @@
+## 1.4.0
+
+ - **REFACTOR**: enhance QualifiedTypeTree implementation and improve equality checks.
+ - **FEAT**: improve type capture methods and add SyntheticTypeCapture class.
+
 ## 1.3.2
 
  - **FIX**: I forgot to add the arguments as a constructor parameter.
