@@ -1,3 +1,7 @@
+## 1.4.4
+
+ - **FIX**: revert unsafe runtime type to not extend QualifiedTypeTree, since it broke plugins who mapped to qualified types. Same goes for synthetic types.
+
 ## 1.4.3
 
  - **FIX**: naming for unsafe runtime types now works properly, and base getters return clones without arguments for both unsafe runtime captures and synthetic types.
