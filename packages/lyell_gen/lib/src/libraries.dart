@@ -24,14 +24,14 @@ class DartCoreLibrariesProxy extends LibraryProxy {
 
   @override
   bool acceptsType(DartType type) {
-    String? uri = type.element?.source?.uri.toString();
+    String? uri = type.element?.firstFragment.libraryFragment?.source.uri.toString();
     if (uri == null) return false;
     return uri.startsWith("dart:");
   }
 
   @override
   String? getImport(DartType type) {
-    return type.element?.source?.uri.toString().split("/").first;
+    return type.element?.firstFragment.libraryFragment?.source.uri.toString().split("/").first;
   }
 
   @override
@@ -94,11 +94,11 @@ String? getImport(DartType type) {
 
   // Prefer importing the type via the importing the defining library.
   if (library.getClass(elementName) != null) {
-    return library.source.uri.toString();
+    return library.firstFragment.source.uri.toString();
   }
 
   // Import the type using its source address.
-  var sourceUri = type.element?.source?.uri.toString();
+  var sourceUri = type.element?.firstFragment.libraryFragment?.source.uri.toString();
   if (sourceUri == null) throw Exception("Can't get element source uri of $type");
   return sourceUri;
 }

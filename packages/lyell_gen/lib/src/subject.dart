@@ -1,7 +1,9 @@
 import 'dart:async';
 import 'dart:convert';
+import 'dart:mirrors';
 
 import 'package:analyzer/dart/element/element.dart';
+import 'package:analyzer/dart/element/type.dart';
 import 'package:build/build.dart';
 import 'package:collection/collection.dart';
 import 'package:dart_style/dart_style.dart';
@@ -25,16 +27,15 @@ abstract class SubjectAdapter<TAnnotation, TElement extends Element> {
     required this.archetype,
     required this.annotation,
   }) {
-    descriptorBuilder =
-        _ServiceAdapterDescriptorBuilder<TAnnotation, TElement>(this);
+    descriptorBuilder = _ServiceAdapterDescriptorBuilder<TAnnotation, TElement>(this);
     subjectBuilder = _ServiceAdapterServiceBuilder<TAnnotation, TElement>(this);
   }
 
   Future<SubjectGenContext<TElement>?> _createContext(BuildStep step) async {
     var library = await step.inputLibrary;
     var reader = LibraryReader(library);
-    var foundElements =
-        reader.annotatedWith(TypeChecker.fromRuntime(TAnnotation));
+    var annotationChecker = TypeChecker.typeNamed(TAnnotation);
+    var foundElements = reader.annotatedWith(annotationChecker);
     if (foundElements.isEmpty) return null;
     var matchingElements =
         foundElements.map((e) => e.element).whereType<TElement>().toList();

@@ -5,7 +5,7 @@ String getRetainedAnnotationSourceArray(Element element,
     [CachedAliasCounter? counter]) {
   var annotations = <String>[];
   for (var value
-      in element.metadata.whereTypeChecker(retainedAnnotationChecker)) {
+      in element.metadata.annotations.whereTypeChecker(retainedAnnotationChecker)) {
     if (counter == null) {
       annotations.add(value.toSource().substring(1));
     } else {
@@ -16,7 +16,7 @@ String getRetainedAnnotationSourceArray(Element element,
         if (innerElement.isPrivate) {
           annotations.add(counter.toSource(value.computeConstantValue()!));
         } else {
-          var alias = counter.getImportAlias(innerElement.library.source.uri.toString());
+          var alias = counter.getImportAlias(innerElement.library.firstFragment.source.uri.toString());
           annotations.add("${alias.prefix}.${innerElement.name}");
         }
       } else {

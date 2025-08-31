@@ -2,8 +2,8 @@ import 'dart:mirrors';
 
 import 'package:analyzer/dart/constant/value.dart';
 import 'package:analyzer/dart/element/element.dart';
-import 'package:analyzer/dart/element/type.dart';
 import 'package:analyzer/dart/element/type.dart' as analyzer_type;
+import 'package:analyzer/dart/element/type.dart';
 import 'package:build/build.dart';
 import 'package:lyell_gen/lyell_gen.dart';
 import 'package:source_gen/source_gen.dart';
@@ -29,7 +29,7 @@ class AliasImport {
   }
 
   factory AliasImport.library(LibraryElement element, [String? alias]) {
-    return AliasImport(element.source.uri.toString(), alias);
+    return AliasImport(element.firstFragment.source.uri.toString(), alias);
   }
 
   String get code => "import '$import'${alias == null ? "" : " as $alias"};";
@@ -66,7 +66,7 @@ String getImportString(LibraryElement? library, AssetId? id,
   importValues.addAll(additional);
   if (id != null) importValues.add(AliasImport.root(id.uri.toString()));
   if (library != null) {
-    for (var element in library.definingCompilationUnit.libraryImports) {
+    for (var element in library.firstFragment.libraryImports) {
       importValues.add(AliasImport(element.importedLibrary!.identifier,
           element.prefix?.element.displayName));
     }
@@ -85,7 +85,7 @@ String createImports(
   if (imports != null) importValues.addAll(imports);
   if (id != null) importValues.add(AliasImport.root(id.uri.toString()));
   if (library != null) {
-    for (var element in library.definingCompilationUnit.libraryImports) {
+    for (var element in library.firstFragment.libraryImports) {
       importValues.add(AliasImport(element.importedLibrary!.identifier,
           element.prefix?.element.displayName));
     }
@@ -181,14 +181,14 @@ class CachedAliasCounter extends TypeStringifier {
     }
   }
 
-  String mapParameter(ParameterElement element, DartObject? object) {
+  String mapParameter(FormalParameterElement element, DartObject? object) {
     if (object == null || object.isNull) return "null";
     return object.toString();
   }
 
   @override
   String getLibraryAlias(LibraryElement element) {
-    var importString = element.source.uri.toString();
+    var importString = element.firstFragment.source.uri.toString();
     return getImportAlias(importString).prefix;
   }
 }
@@ -229,7 +229,7 @@ abstract class TypeStringifier {
         if (variable is TopLevelVariableElement) {
           return "${getLibraryAlias(variable.library)}.${variable.name}";
         } else if (variable is FieldElement) {
-          var interfaceElement = variable.enclosingElement3 as InterfaceElement;
+          var interfaceElement = variable.enclosingElement as InterfaceElement;
           return "${get(interfaceElement.thisType)}.${variable.name}";
         }
       } else {
@@ -252,16 +252,10 @@ abstract class TypeStringifier {
     // Handle functions
     if (object.type is analyzer_type.FunctionType) {
       var function = object.toFunctionValue()!;
-      if (function is FunctionElement) {
-        var enclosingElement = function.enclosingElement3;
-        if (enclosingElement is CompilationUnitElement) {
-          return "${getLibraryAlias(enclosingElement.library)}.${function.name}";
-        } else {
-          log.severe(
-              "Unexpected enclosing element of type ${enclosingElement.runtimeType}. Expected CompilationUnitElement");
-        }
+      if (function is TopLevelFunctionElement) {
+        return "${getLibraryAlias(function.library)}.${function.name}";
       } else if (function is MethodElement) {
-        var classElement = function.enclosingElement3 as ClassElement;
+        var classElement = function.enclosingElement as ClassElement;
         return "${get(classElement.thisType)}.${function.name}";
       } else {
         log.severe(

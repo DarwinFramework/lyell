@@ -20,15 +20,14 @@ late InterfaceElement futureInterface;
 late InterfaceElement futureOrInterface;
 late InterfaceElement cascadeTypeInterface;
 
-TypeChecker retainedAnnotationChecker =
-    TypeChecker.fromRuntime(RetainedAnnotation);
-TypeChecker mapChecker = TypeChecker.fromRuntime(Map);
-TypeChecker iterableChecker = TypeChecker.fromRuntime(Iterable);
-TypeChecker listChecker = TypeChecker.fromRuntime(List);
-TypeChecker setChecker = TypeChecker.fromRuntime(Set);
-TypeChecker streamChecker = TypeChecker.fromRuntime(Stream);
-TypeChecker futureChecker = TypeChecker.fromRuntime(Future);
-TypeChecker cascadeTypeChecker = TypeChecker.fromRuntime(CascadeItemType);
+TypeChecker retainedAnnotationChecker = TypeChecker.typeNamed(RetainedAnnotation);
+TypeChecker mapChecker = TypeChecker.typeNamed(Map, inSdk: true);
+TypeChecker iterableChecker = TypeChecker.typeNamed(Iterable, inSdk: true);
+TypeChecker listChecker = TypeChecker.typeNamed(List, inSdk: true);
+TypeChecker setChecker = TypeChecker.typeNamed(Set, inSdk: true);
+TypeChecker streamChecker = TypeChecker.typeNamed(Stream, inSdk: true);
+TypeChecker futureChecker = TypeChecker.typeNamed(Future, inSdk: true);
+TypeChecker cascadeTypeChecker = TypeChecker.typeNamed(CascadeItemType);
 late TypeChecker futureOrChecker;
 
 var _initLock = Mutex();
