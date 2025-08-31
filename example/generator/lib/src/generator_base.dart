@@ -27,24 +27,24 @@ class TestBuilder extends Builder {
     await tryInitialize(buildStep);
     for (var clazz in reader.classes.where((element) => element.documentationComment?.contains("@@Marker") ?? false)) {
       // Example for generating type tokens
-      for (var element in clazz.fields) {
+      for (var element in clazz.fields2) {
         var token = await getAssociatedTypeToken(element.type, buildStep);
-        codeBuffer.writeln("const \$${clazz.name}_${element.name} = ${token.prefixedCodeWithAliasedTypes(cachedCounter)};");
-        codeBuffer.writeln("final \$${clazz.name}_${element.name}_aliased = ${cachedCounter.get(element.type)};");
-        codeBuffer.writeln("final \$${clazz.name}_${element.name}_token = ${getTypeTree(element.type).code(cachedCounter)};");
+        codeBuffer.writeln("const \$${clazz.displayName}_${element.displayName} = ${token.prefixedCodeWithAliasedTypes(cachedCounter)};");
+        codeBuffer.writeln("final \$${clazz.displayName}_${element.displayName}_aliased = ${cachedCounter.get(element.type)};");
+        codeBuffer.writeln("final \$${clazz.displayName}_${element.displayName}_token = ${getTypeTree(element.type).code(cachedCounter)};");
         var serialized = serializeType(element.type);
         var deserialized = await deserializeType(serialized, buildStep);
-        log.info("${clazz.name}.${element.name}: $serialized, $deserialized");
+        log.info("${clazz.displayName}.${element.displayName}: $serialized, $deserialized");
       }
 
-      if (clazz.typeParameters.isNotEmpty) {
-        codeBuffer.writeln("const \$${clazz.name}_gen = ${cachedCounter.get(clazz.thisType)};");
+      if (clazz.typeParameters2.isNotEmpty) {
+        codeBuffer.writeln("const \$${clazz.displayName}_gen = ${cachedCounter.get(clazz.thisType)};");
       }
 
       // Example for using retained annotations
       var retained = getRetainedAnnotations(clazz, cachedCounter);
-      codeBuffer.writeln("const \$${clazz.name}_annotations_array = ${retained.sourceArray};");
-      codeBuffer.writeln("const \$${clazz.name}_annotations = ${retained.prefixedContainer};");
+      codeBuffer.writeln("const \$${clazz.displayName}_annotations_array = ${retained.sourceArray};");
+      codeBuffer.writeln("const \$${clazz.displayName}_annotations = ${retained.prefixedContainer};");
 
       hasOutput = true;
     }

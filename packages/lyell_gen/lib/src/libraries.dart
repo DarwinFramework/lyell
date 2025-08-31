@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:analyzer/dart/element/element.dart';
+import 'package:analyzer/dart/element/element2.dart';
 import 'package:analyzer/dart/element/nullability_suffix.dart';
 import 'package:analyzer/dart/element/type.dart';
 import 'package:build/build.dart';
@@ -12,7 +13,7 @@ abstract class LibraryProxy {
   bool acceptsImport(String import);
 
   String? getImport(DartType type);
-  FutureOr<LibraryElement> getLibrary(String import, BuildStep step);
+  FutureOr<LibraryElement2> getLibrary(String import, BuildStep step);
 }
 
 /// Library proxy for dart:* imports.
@@ -24,18 +25,18 @@ class DartCoreLibrariesProxy extends LibraryProxy {
 
   @override
   bool acceptsType(DartType type) {
-    String? uri = type.element?.firstFragment.libraryFragment?.source.uri.toString();
+    String? uri = type.element3?.firstFragment.libraryFragment?.source.uri.toString();
     if (uri == null) return false;
     return uri.startsWith("dart:");
   }
 
   @override
   String? getImport(DartType type) {
-    return type.element?.firstFragment.libraryFragment?.source.uri.toString().split("/").first;
+    return type.element3?.firstFragment.libraryFragment?.source.uri.toString().split("/").first;
   }
 
   @override
-  Future<LibraryElement> getLibrary(String import, BuildStep step) async {
+  Future<LibraryElement2> getLibrary(String import, BuildStep step) async {
     var lib = import.split("/").first.replaceFirst("dart:", "");
 
     // Try to rewrite private libraries
@@ -60,7 +61,7 @@ List<LibraryProxy> libraryProxies = [
 ];
 
 /// Returns the library associated with the [import] string.
-Future<LibraryElement> getLibrary(String import, BuildStep step) async {
+Future<LibraryElement2> getLibrary(String import, BuildStep step) async {
   await tryInitialize(step);
   for (var element in libraryProxies) {
     if (element.acceptsImport(import)) {
@@ -87,18 +88,18 @@ String? getImport(DartType type) {
     }
   }
 
-  var library = type.element?.library;
+  var library = type.element3?.library2;
   if (library == null) throw Exception("Can't get library of $type");
-  var elementName = type.element?.name;
+  var elementName = type.element3?.displayName;
   if (elementName == null) throw Exception("Can't get element name of $type");
 
   // Prefer importing the type via the importing the defining library.
-  if (library.getClass(elementName) != null) {
+  if (library.getClass2(elementName) != null) {
     return library.firstFragment.source.uri.toString();
   }
 
   // Import the type using its source address.
-  var sourceUri = type.element?.firstFragment.libraryFragment?.source.uri.toString();
+  var sourceUri = type.element3?.firstFragment.libraryFragment?.source.uri.toString();
   if (sourceUri == null) throw Exception("Can't get element source uri of $type");
   return sourceUri;
 }
@@ -106,7 +107,7 @@ String? getImport(DartType type) {
 extension LibTypeExt on DartType {
 
   /// Resolves the library of this through [import], defaulting to dart:core.
-  Future<LibraryElement> resolveLibrary(BuildStep step) async {
+  Future<LibraryElement2> resolveLibrary(BuildStep step) async {
     var import = getImport(this);
     if (import == null) return coreLibraryReader.element;
     return await getLibrary(import, step);
@@ -124,7 +125,7 @@ extension LibTypeExt on DartType {
 
 Future<DartType> getDartType(BuildStep step, String import, String type, [List<DartType> typeArguments = const []]) async {
   var library = await getLibrary(import, step);
-  var clazz = library.getClass(type);
+  var clazz = library.getClass2(type);
   if (clazz == null) throw ArgumentError.value(type, "type", "Type not found inside imported library '$library'");
   if (typeArguments.isEmpty) {
     return clazz.thisType;

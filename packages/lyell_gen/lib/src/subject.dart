@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'dart:mirrors';
 
 import 'package:analyzer/dart/element/element.dart';
+import 'package:analyzer/dart/element/element2.dart';
 import 'package:analyzer/dart/element/type.dart';
 import 'package:build/build.dart';
 import 'package:collection/collection.dart';
@@ -11,7 +12,7 @@ import 'package:glob/glob.dart';
 import 'package:lyell_gen/lyell_gen.dart';
 import 'package:source_gen/source_gen.dart';
 
-abstract class SubjectAdapter<TAnnotation, TElement extends Element> {
+abstract class SubjectAdapter<TAnnotation, TElement extends Element2> {
   final String descriptorExtension;
   final String archetype;
   final Type annotation;
@@ -52,7 +53,7 @@ abstract class SubjectAdapter<TAnnotation, TElement extends Element> {
       SubjectGenContext<TElement> context);
 }
 
-class SubjectGenContext<TElement extends Element> {
+class SubjectGenContext<TElement extends Element2> {
   final SubjectAdapter adapter;
   final LibraryReader library;
   final List<TElement> matches;
@@ -93,7 +94,7 @@ class SubjectCodeContext {
   }
 }
 
-class _ServiceAdapterDescriptorBuilder<TAnnotation, TElement extends Element>
+class _ServiceAdapterDescriptorBuilder<TAnnotation, TElement extends Element2>
     extends Builder {
   final SubjectAdapter<TAnnotation, TElement> adapter;
 
@@ -119,7 +120,7 @@ class _ServiceAdapterDescriptorBuilder<TAnnotation, TElement extends Element>
       };
 }
 
-class _ServiceAdapterServiceBuilder<TAnnotation, TElement extends Element>
+class _ServiceAdapterServiceBuilder<TAnnotation, TElement extends Element2>
     extends Builder {
   final SubjectAdapter<TAnnotation, TElement> adapter;
 
