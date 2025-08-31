@@ -3,6 +3,32 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## 2025-08-31
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
+ - [`lyell` - `v1.4.5`](#lyell---v145)
+ - [`lyell_gen` - `v3.0.9`](#lyell_gen---v309)
+
+---
+
+#### `lyell` - `v1.4.5`
+
+ - **REFACTOR**: migrate to the new element model and remove dependency version ranges.
+
+#### `lyell_gen` - `v3.0.9`
+
+ - **REFACTOR**: migrate to the new element model and remove dependency version ranges.
+
+
 ## 2025-05-16
 
 ### Changes

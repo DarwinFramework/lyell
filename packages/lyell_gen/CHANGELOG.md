@@ -1,3 +1,7 @@
+## 3.0.9
+
+ - **REFACTOR**: migrate to the new element model and remove dependency version ranges.
+
 ## 3.0.8
 
  - Update a dependency to the latest release.

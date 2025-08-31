@@ -1,3 +1,7 @@
+## 1.4.5
+
+ - **REFACTOR**: migrate to the new element model and remove dependency version ranges.
+
 ## 1.4.4
 
  - **FIX**: revert unsafe runtime type to not extend QualifiedTypeTree, since it broke plugins who mapped to qualified types. Same goes for synthetic types.
