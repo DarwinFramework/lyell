@@ -1,3 +1,7 @@
+## 3.0.11
+
+ - **REFACTOR**: downgrade and switch to element2 compatibility.
+
 ## 3.0.10
 
  - **FIX**: downgrade analyzer and source_gen dependencies for compatibility.

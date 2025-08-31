@@ -15,6 +15,27 @@ Packages with breaking changes:
 
 Packages with other changes:
 
+ - [`lyell_gen` - `v3.0.11`](#lyell_gen---v3011)
+
+---
+
+#### `lyell_gen` - `v3.0.11`
+
+ - **REFACTOR**: downgrade and switch to element2 compatibility.
+
+
+## 2025-08-31
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
  - [`lyell_gen` - `v3.0.10`](#lyell_gen---v3010)
 
 ---
