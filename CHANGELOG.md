@@ -15,6 +15,27 @@ Packages with breaking changes:
 
 Packages with other changes:
 
+ - [`lyell_gen` - `v3.0.10`](#lyell_gen---v3010)
+
+---
+
+#### `lyell_gen` - `v3.0.10`
+
+ - **FIX**: downgrade analyzer and source_gen dependencies for compatibility.
+
+
+## 2025-08-31
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
  - [`lyell` - `v1.4.5`](#lyell---v145)
  - [`lyell_gen` - `v3.0.9`](#lyell_gen---v309)
 

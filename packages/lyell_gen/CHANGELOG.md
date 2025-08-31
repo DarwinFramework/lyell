@@ -1,3 +1,7 @@
+## 3.0.10
+
+ - **FIX**: downgrade analyzer and source_gen dependencies for compatibility.
+
 ## 3.0.9
 
  - **REFACTOR**: migrate to the new element model and remove dependency version ranges.
