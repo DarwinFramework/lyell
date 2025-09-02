@@ -1,5 +1,5 @@
 /// Generator utilities used by darwin and dogs.
-library lyell;
+library;
 
 export 'src/container.dart';
 export 'src/lyell_base.dart';

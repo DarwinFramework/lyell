@@ -104,8 +104,9 @@ String? getImport(DartType type) {
   // Import the type using its source address.
   var sourceUri =
       type.element3?.firstFragment.libraryFragment?.source.uri.toString();
-  if (sourceUri == null)
+  if (sourceUri == null) {
     throw Exception("Can't get element source uri of $type");
+  }
   return sourceUri;
 }
 
@@ -130,9 +131,10 @@ Future<DartType> getDartType(BuildStep step, String import, String type,
     [List<DartType> typeArguments = const []]) async {
   var library = await getLibrary(import, step);
   var clazz = library.getClass2(type);
-  if (clazz == null)
+  if (clazz == null) {
     throw ArgumentError.value(
         type, "type", "Type not found inside imported library '$library'");
+  }
   if (typeArguments.isEmpty) {
     return clazz.thisType;
   } else {

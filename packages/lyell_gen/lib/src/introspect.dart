@@ -78,7 +78,9 @@ Future<DartType> getItemType(DartType type, BuildStep step) async {
   if (type.isDartCoreString ||
       type.isDartCoreInt ||
       type.isDartCoreDouble ||
-      type.isDartCoreBool) return type;
+      type.isDartCoreBool) {
+    return type;
+  }
 
   // Check common collections
   if (iterableChecker.isAssignableFromType(type)) {

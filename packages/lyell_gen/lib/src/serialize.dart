@@ -22,7 +22,7 @@ void _serializeType(DartType type, ByteBuf buffer) {
     buffer.writeByte(0x01);
     buffer.writeLPString(import);
   }
-  var fallbackName = type.getDisplayString(withNullability: false);
+  var fallbackName = type.displayName;
   buffer.writeLPString(type.element3?.displayName ?? fallbackName);
   if (type is ParameterizedType && type.typeArguments.isNotEmpty) {
     buffer.writeByte(type.typeArguments.length);
