@@ -1,3 +1,8 @@
+## 1.4.6
+
+ - **REFACTOR**: clean up code and remove unused imports.
+ - **FIX**: reformat code, fix missing translations, update linter ignores.
+
 ## 1.4.5
 
  - **REFACTOR**: migrate to the new element model and remove dependency version ranges.

@@ -3,6 +3,34 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## 2025-09-02
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
+ - [`lyell` - `v1.4.6`](#lyell---v146)
+ - [`lyell_gen` - `v3.0.12`](#lyell_gen---v3012)
+
+---
+
+#### `lyell` - `v1.4.6`
+
+ - **REFACTOR**: clean up code and remove unused imports.
+ - **FIX**: reformat code, fix missing translations, update linter ignores.
+
+#### `lyell_gen` - `v3.0.12`
+
+ - **REFACTOR**: clean up code and remove unused imports.
+ - **FIX**: reformat code, fix missing translations, update linter ignores.
+
+
 ## 2025-08-31
 
 ### Changes

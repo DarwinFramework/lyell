@@ -1,3 +1,8 @@
+## 3.0.12
+
+ - **REFACTOR**: clean up code and remove unused imports.
+ - **FIX**: reformat code, fix missing translations, update linter ignores.
+
 ## 3.0.11
 
  - **REFACTOR**: downgrade and switch to element2 compatibility.
