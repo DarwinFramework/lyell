@@ -10,7 +10,7 @@ class GeneratedAssociatedItemTypeToken {
   GeneratedAssociatedItemTypeToken(this.origin, this.item);
 
   String get code =>
-      "ItemAssociatedTypeToken<${origin.getDisplayString(withNullability: false)},${item.getDisplayString(withNullability: false)}>()";
+      "ItemAssociatedTypeToken<${origin.displayName},${item.displayName}>()";
 
   String get prefixedCode => genPrefix.str(code);
 
@@ -25,8 +25,7 @@ class GeneratedTypeToken {
 
   GeneratedTypeToken(this.type);
 
-  String get code =>
-      "TypeToken<${type.getDisplayString(withNullability: false)}>()";
+  String get code => "TypeToken<${type.displayName}>()";
 
   String get prefixedCode => genPrefix.str(code);
 
@@ -36,7 +35,6 @@ class GeneratedTypeToken {
 }
 
 class GeneratedTypeTree {
-
   DartType qualified;
   DartType base;
   List<GeneratedTypeTree> parameters;
@@ -49,8 +47,6 @@ class GeneratedTypeTree {
     }
     return "gen.QualifiedTypeTreeN<${counter.get(qualified)},${counter.get(base)}>([${parameters.map((e) => e.code(counter)).join(",")}])";
   }
-
-
 }
 
 GeneratedTypeToken getTypeToken(DartType type) => GeneratedTypeToken(type);
@@ -71,7 +67,12 @@ GeneratedTypeTree getTypeTree(DartType type) {
         neutralTypeArgs.add(element.bound!);
       }
     }
-    return GeneratedTypeTree(type,type.element3.instantiate(typeArguments: neutralTypeArgs, nullabilitySuffix: NullabilitySuffix.none), type.typeArguments.map((e) => getTypeTree(e)).toList());
+    return GeneratedTypeTree(
+        type,
+        type.element3.instantiate(
+            typeArguments: neutralTypeArgs,
+            nullabilitySuffix: NullabilitySuffix.none),
+        type.typeArguments.map((e) => getTypeTree(e)).toList());
   } else {
     return GeneratedTypeTree(type, type, []);
   }

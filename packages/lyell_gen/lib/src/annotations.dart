@@ -1,19 +1,16 @@
-import 'dart:math';
-
-import 'package:analyzer/dart/element/element.dart';
 import 'package:analyzer/dart/element/element2.dart';
 import 'package:lyell_gen/lyell_gen.dart';
 
 String getRetainedAnnotationSourceArray(Element2 element,
     [CachedAliasCounter? counter]) {
-
   if (element is! Annotatable) {
-    throw ArgumentError("Element of type ${element.runtimeType} is not Annotatable");
+    throw ArgumentError(
+        "Element of type ${element.runtimeType} is not Annotatable");
   }
   var annotatable = element as Annotatable;
   var annotations = <String>[];
-  for (var value
-      in annotatable.metadata2.annotations.whereTypeChecker(retainedAnnotationChecker)) {
+  for (var value in annotatable.metadata2.annotations
+      .whereTypeChecker(retainedAnnotationChecker)) {
     if (counter == null) {
       annotations.add(value.toSource().substring(1));
     } else {
@@ -24,7 +21,8 @@ String getRetainedAnnotationSourceArray(Element2 element,
         if (innerElement.isPrivate) {
           annotations.add(counter.toSource(value.computeConstantValue()!));
         } else {
-          var alias = counter.getImportAlias(innerElement.library2.firstFragment.source.uri.toString());
+          var alias = counter.getImportAlias(
+              innerElement.library2.firstFragment.source.uri.toString());
           annotations.add("${alias.prefix}.${innerElement.displayName}");
         }
       } else {

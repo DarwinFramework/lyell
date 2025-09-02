@@ -5,6 +5,7 @@ import 'package:test/expect.dart';
 import 'package:test/scaffolding.dart';
 
 class $A {}
+
 class $B {}
 
 void main() {
@@ -16,27 +17,35 @@ void main() {
   });
 
   test("TypeTreeEquality", () {
-    expect(QualifiedTypeTree.map<String,$A>(), QualifiedTypeTree.map<String,$A>());
-    expect(QualifiedTypeTree.map<$A,$B>(), TypeTree.map<$A,$B>());
+    expect(QualifiedTypeTree.map<String, $A>(),
+        QualifiedTypeTree.map<String, $A>());
+    expect(QualifiedTypeTree.map<$A, $B>(), TypeTree.map<$A, $B>());
     expect(TypeTree.$string, TypeTree.$string);
     expect(TypeTree.terminal<String>(), bidiEquals(TypeTree.$string));
     expect(QualifiedTypeTree.terminal<String>(), bidiEquals(TypeTree.$string));
-    expect(QualifiedTypeTree.terminal<String>(), QualifiedTypeTree.terminal<String>());
+    expect(QualifiedTypeTree.terminal<String>(),
+        QualifiedTypeTree.terminal<String>());
     expect(TypeTree.$string, bidiEquals(QualifiedTerminal<String>()));
-    expect(TypeTree.terminal<String>(), bidiEquals(QualifiedTerminal<String>()));
+    expect(
+        TypeTree.terminal<String>(), bidiEquals(QualifiedTerminal<String>()));
     expect(TypeToken<String>(), bidiEquals(QualifiedTerminal<String>()));
     expect(TypeToken<String>(), bidiEquals(TypeTree0<String>()));
     expect(TypeTree0<$A>(), bidiEquals(UnsafeRuntimeTypeCapture($A)));
     expect(QualifiedTerminal<$A>(), bidiEquals(UnsafeRuntimeTypeCapture($A)));
     expect(TypeTree0<$A>(), bidiNotEquals(UnsafeRuntimeTypeCapture($B)));
-    expect(QualifiedTerminal<$A>(), bidiNotEquals(UnsafeRuntimeTypeCapture($B)));
+    expect(
+        QualifiedTerminal<$A>(), bidiNotEquals(UnsafeRuntimeTypeCapture($B)));
 
-    expect(QualifiedTypeTree.map<String,double>().base, bidiEquals(TypeToken<Map>()));
-    expect(QualifiedTypeTree.map<String,double>().base, bidiEquals(UnsafeRuntimeTypeCapture(Map)));
-    expect(UnsafeRuntimeTypeCapture(Map, arguments: [
-      UnsafeRuntimeTypeCapture(String),
-      UnsafeRuntimeTypeCapture(double)
-    ]).base, bidiEquals(UnsafeRuntimeTypeCapture(Map)));
+    expect(QualifiedTypeTree.map<String, double>().base,
+        bidiEquals(TypeToken<Map>()));
+    expect(QualifiedTypeTree.map<String, double>().base,
+        bidiEquals(UnsafeRuntimeTypeCapture(Map)));
+    expect(
+        UnsafeRuntimeTypeCapture(Map, arguments: [
+          UnsafeRuntimeTypeCapture(String),
+          UnsafeRuntimeTypeCapture(double)
+        ]).base,
+        bidiEquals(UnsafeRuntimeTypeCapture(Map)));
   });
 
   test("TypeTreeInequality", () {
@@ -49,14 +58,27 @@ void main() {
     expect(SyntheticTypeCapture("A"), bidiNotEquals(SyntheticTypeCapture("B")));
     expect(SyntheticTypeCapture("A"), bidiNotEquals(TypeToken<dynamic>()));
     expect(SyntheticTypeCapture("A"), bidiNotEquals(TypeToken<String>()));
-    expect(TypeTreeN<List>([SyntheticTypeCapture("A")]), bidiEquals(TypeTreeN<List>([SyntheticTypeCapture("A")])));
-    expect(TypeTreeN<List>([SyntheticTypeCapture("A")]), bidiNotEquals(TypeTreeN<List>([SyntheticTypeCapture("B")])));
+    expect(TypeTreeN<List>([SyntheticTypeCapture("A")]),
+        bidiEquals(TypeTreeN<List>([SyntheticTypeCapture("A")])));
+    expect(TypeTreeN<List>([SyntheticTypeCapture("A")]),
+        bidiNotEquals(TypeTreeN<List>([SyntheticTypeCapture("B")])));
 
-    expect(SyntheticTypeCapture("Cont", arguments: [TypeTree.$string]), SyntheticTypeCapture("Cont", arguments: [TypeTree.$string]));
-    expect(SyntheticTypeCapture("Cont", arguments: [TypeTree.$string]), bidiNotEquals(SyntheticTypeCapture("Cont", arguments: [TypeTree.$double])));
-    expect(SyntheticTypeCapture("Cont", arguments: [TypeTree.$string]), bidiNotEquals(SyntheticTypeCapture("Cont")));
-    expect(SyntheticTypeCapture("Cont", arguments: [TypeTree.$string]), bidiEquals(SyntheticTypeCapture("Cont", arguments: [QualifiedTerminal<String>()])));
-    expect(SyntheticTypeCapture("Cont", arguments: [TypeTree.$string]), bidiEquals(SyntheticTypeCapture("Cont", arguments: [UnsafeRuntimeTypeCapture(String)])));
+    expect(SyntheticTypeCapture("Cont", arguments: [TypeTree.$string]),
+        SyntheticTypeCapture("Cont", arguments: [TypeTree.$string]));
+    expect(
+        SyntheticTypeCapture("Cont", arguments: [TypeTree.$string]),
+        bidiNotEquals(
+            SyntheticTypeCapture("Cont", arguments: [TypeTree.$double])));
+    expect(SyntheticTypeCapture("Cont", arguments: [TypeTree.$string]),
+        bidiNotEquals(SyntheticTypeCapture("Cont")));
+    expect(
+        SyntheticTypeCapture("Cont", arguments: [TypeTree.$string]),
+        bidiEquals(SyntheticTypeCapture("Cont",
+            arguments: [QualifiedTerminal<String>()])));
+    expect(
+        SyntheticTypeCapture("Cont", arguments: [TypeTree.$string]),
+        bidiEquals(SyntheticTypeCapture("Cont",
+            arguments: [UnsafeRuntimeTypeCapture(String)])));
 
     expect(SyntheticTypeCapture("A").base, isA<SyntheticTypeCapture>());
     expect(UnsafeRuntimeTypeCapture($A).base, isA<UnsafeRuntimeTypeCapture>());
@@ -77,21 +99,20 @@ void main() {
     expect(map[UnsafeRuntimeTypeCapture($B)], 2);
   });
 
-
   // print(SyntheticTypeCapture("Cont", arguments: [TypeTree.$string]));
   // print(QualifiedTypeTree.list<String>());
   // print(TypeTree.argN<Map>([TypeTree.$string, SyntheticTypeCapture("MyCustomType")]));
 }
 
 class BidirectionalEquals<T> extends Matcher {
-  
   T value;
   final bool inverted;
   BidirectionalEquals(this.value, {this.inverted = false});
-  
+
   @override
   Description describe(Description description) {
-    return description.add("BidirectionalEquals(${inverted ? "!=" : "=="}$value)");
+    return description
+        .add("BidirectionalEquals(${inverted ? "!=" : "=="}$value)");
   }
 
   @override
@@ -100,10 +121,13 @@ class BidirectionalEquals<T> extends Matcher {
   }
 
   @override
-  Description describeMismatch(Object? item, Description mismatchDescription, Map matchState, bool verbose) {
-    return mismatchDescription.add("BidirectionalEquals($value) ${inverted ? "==" : "!="} $item | actual == expected: ${item == value}, expected == actual: ${value == item}");
+  Description describeMismatch(Object? item, Description mismatchDescription,
+      Map matchState, bool verbose) {
+    return mismatchDescription.add(
+        "BidirectionalEquals($value) ${inverted ? "==" : "!="} $item | actual == expected: ${item == value}, expected == actual: ${value == item}");
   }
 }
 
 Matcher bidiEquals<T>(T value) => BidirectionalEquals<T>(value);
-Matcher bidiNotEquals<T>(T value) => BidirectionalEquals<T>(value, inverted: true);
+Matcher bidiNotEquals<T>(T value) =>
+    BidirectionalEquals<T>(value, inverted: true);

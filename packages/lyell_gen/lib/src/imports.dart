@@ -1,15 +1,12 @@
 import 'dart:mirrors';
 
 import 'package:analyzer/dart/constant/value.dart';
-import 'package:analyzer/dart/element/element.dart';
 import 'package:analyzer/dart/element/element2.dart';
 import 'package:analyzer/dart/element/type.dart' as analyzer_type;
 import 'package:analyzer/dart/element/type.dart';
 import 'package:build/build.dart';
 import 'package:lyell_gen/lyell_gen.dart';
 import 'package:source_gen/source_gen.dart';
-
-import 'libraries.dart';
 
 const String genAlias = "gen";
 final AliasedPrefix genPrefix = AliasedPrefix(genAlias);
@@ -121,12 +118,12 @@ class AliasCounter extends TypeStringifier {
       importBuffer.add(AliasImport.type(type, prefix.prefix));
     }
     imports.add(AliasImport.type(type, prefix.prefix));
-    var element = type.element!;
+    var element = type.element3!;
     if (type is ParameterizedType && type.typeArguments.isNotEmpty) {
       return prefix.str(
-          "${element.name}<${type.typeArguments.map((e) => ephemeral(e, importBuffer, prefixOverride)).join(",")}>");
+          "${element.displayName}<${type.typeArguments.map((e) => ephemeral(e, importBuffer, prefixOverride)).join(",")}>");
     } else {
-      return prefix.str(element.name!);
+      return prefix.str(element.displayName);
     }
   }
 
@@ -170,7 +167,7 @@ class CachedAliasCounter extends TypeStringifier {
   String get(DartType type, [AliasedPrefix? prefix]) {
     var import = type.import;
     if (import == null) {
-      return type.getDisplayString(withNullability: false);
+      return type.displayName;
     }
     var prefix = getImportAlias(import);
     var element = type.element3!;
@@ -178,7 +175,7 @@ class CachedAliasCounter extends TypeStringifier {
       return prefix.str(
           "${element.displayName}<${type.typeArguments.map((e) => get(e)).join(",")}>");
     } else {
-      return prefix.str(element.displayName!);
+      return prefix.str(element.displayName);
     }
   }
 
@@ -230,7 +227,8 @@ abstract class TypeStringifier {
         if (variable is TopLevelVariableElement2) {
           return "${getLibraryAlias(variable.library2)}.${variable.displayName}";
         } else if (variable is FieldElement2) {
-          var interfaceElement = variable.enclosingElement2 as InterfaceElement2;
+          var interfaceElement =
+              variable.enclosingElement2 as InterfaceElement2;
           return "${get(interfaceElement.thisType)}.${variable.displayName}";
         }
       } else {
@@ -305,7 +303,7 @@ class AliasedPrefix {
   }
 
   String type(DartType type) {
-    return "$prefix.${type.getDisplayString(withNullability: false)}";
+    return "$prefix.${type.displayName}";
   }
 
   String str(String str) {

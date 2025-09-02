@@ -1,6 +1,5 @@
 import 'dart:async';
 
-import 'package:analyzer/dart/element/element.dart';
 import 'package:analyzer/dart/element/element2.dart';
 import 'package:analyzer/dart/element/type.dart';
 import 'package:build/build.dart';
@@ -21,7 +20,8 @@ late InterfaceElement2 futureInterface;
 late InterfaceElement2 futureOrInterface;
 late InterfaceElement2 cascadeTypeInterface;
 
-TypeChecker retainedAnnotationChecker = TypeChecker.typeNamed(RetainedAnnotation);
+TypeChecker retainedAnnotationChecker =
+    TypeChecker.typeNamed(RetainedAnnotation);
 TypeChecker mapChecker = TypeChecker.typeNamed(Map, inSdk: true);
 TypeChecker iterableChecker = TypeChecker.typeNamed(Iterable, inSdk: true);
 TypeChecker listChecker = TypeChecker.typeNamed(List, inSdk: true);
@@ -51,8 +51,10 @@ Future tryInitialize(BuildStep step) async {
         coreLibraryReader.findType("Iterable") as InterfaceElement2;
     listInterface = coreLibraryReader.findType("List") as InterfaceElement2;
     setInterface = coreLibraryReader.findType("Set") as InterfaceElement2;
-    streamInterface = asyncLibraryReader.findType("Stream") as InterfaceElement2;
-    futureInterface = asyncLibraryReader.findType("Future") as InterfaceElement2;
+    streamInterface =
+        asyncLibraryReader.findType("Stream") as InterfaceElement2;
+    futureInterface =
+        asyncLibraryReader.findType("Future") as InterfaceElement2;
     futureOrInterface =
         asyncLibraryReader.findType("FutureOr") as InterfaceElement2;
     cascadeTypeInterface =

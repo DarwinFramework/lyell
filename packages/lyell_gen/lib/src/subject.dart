@@ -1,10 +1,7 @@
 import 'dart:async';
 import 'dart:convert';
-import 'dart:mirrors';
 
-import 'package:analyzer/dart/element/element.dart';
 import 'package:analyzer/dart/element/element2.dart';
-import 'package:analyzer/dart/element/type.dart';
 import 'package:build/build.dart';
 import 'package:collection/collection.dart';
 import 'package:dart_style/dart_style.dart';
@@ -28,7 +25,8 @@ abstract class SubjectAdapter<TAnnotation, TElement extends Element2> {
     required this.archetype,
     required this.annotation,
   }) {
-    descriptorBuilder = _ServiceAdapterDescriptorBuilder<TAnnotation, TElement>(this);
+    descriptorBuilder =
+        _ServiceAdapterDescriptorBuilder<TAnnotation, TElement>(this);
     subjectBuilder = _ServiceAdapterServiceBuilder<TAnnotation, TElement>(this);
   }
 
@@ -86,7 +84,7 @@ class SubjectCodeContext {
 // coverage:ignore-file
 // GENERATED CODE - DO NOT MODIFY BY HAND
 // ignore_for_file: type=lint
-// ignore_for_file: unused_element, unused_field, unused_import, public_member_api_docs, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target, unnecessary_question_mark
+// ignore_for_file: unused_element, unused_field, unused_import, unnecessary_import, public_member_api_docs, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target, unnecessary_question_mark
 """);
     incrementalCounter = AliasCounter.withImports(additionalImports);
     cachedCounter =

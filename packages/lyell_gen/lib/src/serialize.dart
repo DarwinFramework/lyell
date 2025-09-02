@@ -1,4 +1,3 @@
-import 'package:analyzer/dart/element/element.dart';
 import 'package:analyzer/dart/element/element2.dart';
 import 'package:analyzer/dart/element/nullability_suffix.dart';
 import 'package:analyzer/dart/element/type.dart';
@@ -24,7 +23,7 @@ void _serializeType(DartType type, ByteBuf buffer) {
     buffer.writeLPString(import);
   }
   var fallbackName = type.getDisplayString(withNullability: false);
-  buffer.writeLPString(type.element?.name ?? fallbackName);
+  buffer.writeLPString(type.element3?.displayName ?? fallbackName);
   if (type is ParameterizedType && type.typeArguments.isNotEmpty) {
     buffer.writeByte(type.typeArguments.length);
     for (var value in type.typeArguments) {
@@ -34,7 +33,6 @@ void _serializeType(DartType type, ByteBuf buffer) {
     buffer.writeByte(0x00);
   }
 }
-
 
 Future<DartType> _deserializeType(ByteBuf buffer, BuildStep step) async {
   String? import;
